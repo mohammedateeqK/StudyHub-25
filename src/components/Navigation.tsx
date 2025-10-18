@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { BookOpen, Menu, X } from "lucide-react";
 
@@ -32,8 +33,12 @@ const Navigation = () => {
           </div>
           
           <div className="hidden md:flex items-center gap-3">
-            <Button variant="ghost">Sign In</Button>
-            <Button variant="hero">Get Started</Button>
+            <Link to="/login">
+              <Button variant="ghost">Sign In</Button>
+            </Link>
+            <Link to="/signup">
+              <Button variant="hero">Get Started</Button>
+            </Link>
           </div>
           
           <button
@@ -76,8 +81,12 @@ const Navigation = () => {
               About
             </a>
             <div className="pt-4 space-y-2">
-              <Button variant="ghost" className="w-full">Sign In</Button>
-              <Button variant="hero" className="w-full">Get Started</Button>
+              <Link to="/login" className="block">
+                <Button variant="ghost" className="w-full">Sign In</Button>
+              </Link>
+              <Link to="/signup" className="block">
+                <Button variant="hero" className="w-full">Get Started</Button>
+              </Link>
             </div>
           </div>
         )}
