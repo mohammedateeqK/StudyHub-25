@@ -1,11 +1,12 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Navigate, useNavigate } from 'react-router-dom';
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/hooks/use-toast';
-import { ClipboardList } from 'lucide-react';
+import { ClipboardList, Search, Filter, ChevronLeft, ChevronRight, Info } from 'lucide-react';
+import { Input } from '@/components/ui/input';
 
 const TakeTest = () => {
   const { user, isAuthenticated } = useAuth();
@@ -13,6 +14,18 @@ const TakeTest = () => {
   const [selectedTest, setSelectedTest] = useState<any>(null);
   const [answers, setAnswers] = useState<{ [key: string]: number }>({});
   const tests = JSON.parse(localStorage.getItem('studyhub_tests') || '[]');
+  const [searchQuery, setSearchQuery] = useState('');
+  const availableTestsRef = useRef<HTMLDivElement>(null);
+  const upcomingTestsRef = useRef<HTMLDivElement>(null);
+
+  const scrollTests = (ref: React.RefObject<HTMLDivElement>, dir: 'left' | 'right') => {
+    if (!ref.current) return;
+    const amount = 280 * 2; // scroll by ~2 cards
+    ref.current.scrollBy({ left: dir === 'left' ? -amount : amount, behavior: 'smooth' });
+  };
+
+  const filteredTests = tests.filter((t: any) => t.title.toLowerCase().includes(searchQuery.toLowerCase()));
+  const upcomingTests = filteredTests.slice(0, 5); // mock upcoming
 
   if (!isAuthenticated || user?.role !== 'student') {
     return <Navigate to="/dashboard" />;
@@ -53,43 +66,113 @@ const TakeTest = () => {
     return (
       <DashboardLayout>
         <div className="space-y-8">
-          <div>
-            <h1 className="text-3xl font-bold mb-2">Take Test</h1>
-            <p className="text-muted-foreground">Choose a test to begin</p>
+          {/* Header with search */}
+          <div className="flex items-center justify-between">
+            <h1 className="text-4xl font-bold">Attend Tests</h1>
+            <div className="flex items-center gap-3">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                <Input placeholder="Search" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="pl-10 w-64 border-primary/30" />
+              </div>
+              <Button variant="outline" size="sm" className="border-primary/30">
+                <Filter className="w-4 h-4" />
+              </Button>
+            </div>
           </div>
 
-          {tests.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {tests.map((test: any) => (
-                <Card key={test.id} className="cursor-pointer hover:shadow-lg transition-shadow"
-                  onClick={() => setSelectedTest(test)}>
-                  <CardHeader>
-                    <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 rounded-lg bg-gradient-accent flex items-center justify-center flex-shrink-0">
-                        <ClipboardList className="w-6 h-6 text-accent-foreground" />
-                      </div>
-                      <div>
-                        <CardTitle>{test.title}</CardTitle>
-                        <CardDescription className="mt-1">{test.subject}</CardDescription>
-                      </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-muted-foreground">
-                      {test.questions.length} questions
-                    </p>
-                  </CardContent>
-                </Card>
-              ))}
+          {/* Repository button */}
+          <div className="flex justify-end">
+            <Button variant="secondary" className="rounded-lg">Check out our repository</Button>
+          </div>
+
+          {/* Available Tests */}
+          <section className="relative">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-2xl font-bold">Available Tests</h2>
+              <div className="flex gap-2">
+                <button onClick={() => scrollTests(availableTestsRef, 'left')} className="p-1 hover:bg-muted rounded">
+                  <ChevronLeft className="w-4 h-4" />
+                </button>
+                <button onClick={() => scrollTests(availableTestsRef, 'right')} className="p-1 hover:bg-muted rounded">
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              </div>
             </div>
-          ) : (
-            <Card>
-              <CardContent className="flex flex-col items-center justify-center py-12">
-                <ClipboardList className="w-16 h-16 text-muted-foreground mb-4" />
-                <p className="text-muted-foreground">No tests available yet</p>
-              </CardContent>
-            </Card>
-          )}
+            {filteredTests.length > 0 ? (
+              <div className="flex gap-4 overflow-x-auto pb-2 scroll-smooth" ref={availableTestsRef}>
+                {filteredTests.map((test: any) => (
+                  <div key={test.id} className="min-w-[280px] max-w-[280px]">
+                    <Card className="cursor-pointer hover:shadow-lg transition-shadow h-64">
+                      <CardContent className="p-6 h-full flex flex-col">
+                        <div className="flex items-start gap-2 mb-4">
+                          <h3 className="font-semibold text-sm">{test.title}</h3>
+                          <Info className="w-3 h-3 text-muted-foreground" />
+                        </div>
+                        <div className="flex-1 flex items-center justify-center">
+                          <ClipboardList className="w-16 h-16 text-muted-foreground" />
+                        </div>
+                        <Button variant="outline" className="w-full border-primary/30 text-primary hover:bg-primary/5" onClick={() => setSelectedTest(test)}>
+                          Take Test
+                        </Button>
+                      </CardContent>
+                    </Card>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <Card><CardContent className="p-6 text-center text-muted-foreground">No tests available</CardContent></Card>
+            )}
+          </section>
+
+          {/* Upcoming Tests */}
+          <section className="relative">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-2xl font-bold">Upcoming Tests</h2>
+              <div className="flex gap-2">
+                <button onClick={() => scrollTests(upcomingTestsRef, 'left')} className="p-1 hover:bg-muted rounded">
+                  <ChevronLeft className="w-4 h-4" />
+                </button>
+                <button onClick={() => scrollTests(upcomingTestsRef, 'right')} className="p-1 hover:bg-muted rounded">
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+            {upcomingTests.length > 0 ? (
+              <div className="flex gap-4 overflow-x-auto pb-2 scroll-smooth" ref={upcomingTestsRef}>
+                {upcomingTests.map((test: any) => (
+                  <div key={test.id} className="min-w-[280px] max-w-[280px]">
+                    <Card className="hover:shadow-lg transition-shadow h-64">
+                      <CardContent className="p-6 h-full flex flex-col">
+                        <div className="flex items-start gap-2 mb-4">
+                          <h3 className="font-semibold text-sm">{test.title}</h3>
+                          <Info className="w-3 h-3 text-muted-foreground" />
+                        </div>
+                        <div className="flex-1 flex items-center justify-center">
+                          <ClipboardList className="w-16 h-16 text-muted-foreground" />
+                        </div>
+                        <div className="grid grid-cols-3 gap-2 text-center">
+                          <div>
+                            <div className="text-lg font-bold">4</div>
+                            <div className="text-xs text-muted-foreground">Days</div>
+                          </div>
+                          <div>
+                            <div className="text-lg font-bold">5</div>
+                            <div className="text-xs text-muted-foreground">Hours</div>
+                          </div>
+                          <div>
+                            <div className="text-lg font-bold">30</div>
+                            <div className="text-xs text-muted-foreground">Minutes</div>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <Card><CardContent className="p-6 text-center text-muted-foreground">No upcoming tests</CardContent></Card>
+            )}
+          </section>
         </div>
       </DashboardLayout>
     );

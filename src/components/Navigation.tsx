@@ -7,9 +7,9 @@ const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border">
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-border">
+      <div className="container mx-auto px-6">
+        <div className="flex items-center justify-between h-20">
           <div className="flex items-center gap-2">
             <div className="w-10 h-10 rounded-xl bg-gradient-primary flex items-center justify-center">
               <BookOpen className="w-6 h-6 text-primary-foreground" />
@@ -17,27 +17,27 @@ const Navigation = () => {
             <span className="text-xl font-bold">StudyHub</span>
           </div>
           
-          <div className="hidden md:flex items-center gap-8">
-            <a href="#features" className="text-sm font-medium hover:text-primary transition-colors">
+          <div className="hidden md:flex items-center gap-10">
+            <a href="#features" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
               Features
             </a>
-            <a href="#how-it-works" className="text-sm font-medium hover:text-primary transition-colors">
+            <a href="#how-it-works" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
               How It Works
             </a>
-            <a href="#pricing" className="text-sm font-medium hover:text-primary transition-colors">
+            <a href="#pricing" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
               Pricing
             </a>
-            <a href="#about" className="text-sm font-medium hover:text-primary transition-colors">
+            <a href="#about" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
               About
             </a>
           </div>
           
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden md:flex items-center gap-4">
             <Link to="/login">
-              <Button variant="ghost">Sign In</Button>
+              <Button variant="ghost" className="text-sm font-medium">Sign In</Button>
             </Link>
             <Link to="/signup">
-              <Button variant="hero">Get Started</Button>
+              <Button variant="hero" className="text-sm font-medium px-6 py-2">Get Started</Button>
             </Link>
           </div>
           

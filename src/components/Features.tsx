@@ -42,35 +42,35 @@ const features = [
 
 const Features = () => {
   return (
-    <section className="py-24 bg-muted/30">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-16 space-y-4 animate-fade-in">
-          <h2 className="text-4xl lg:text-5xl font-bold">
+    <section id="features" className="scroll-mt-24 py-24 md:py-28 lg:py-32 bg-muted/30">
+      <div className="container mx-auto px-6">
+        <div className="text-center mb-20 space-y-6 animate-fade-in">
+          <h2 className="text-5xl lg:text-6xl font-bold">
             Everything You Need to
             <span className="block bg-gradient-primary bg-clip-text text-transparent">
               Excel in Your Studies
             </span>
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
             Powerful features designed to help you study more effectively and achieve your academic goals.
           </p>
         </div>
         
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {features.map((feature, index) => {
             const Icon = feature.icon;
             return (
               <Card 
                 key={index}
-                className="border-none shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-2 animate-fade-in-up bg-card"
+                className="border-none shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 animate-fade-in-up bg-card"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
-                <CardContent className="p-6 space-y-4">
-                  <div className={`w-14 h-14 rounded-xl bg-gradient-primary flex items-center justify-center ${feature.color}`}>
-                    <Icon className="w-7 h-7 text-primary-foreground" />
+                <CardContent className="p-8 space-y-6">
+                  <div className={`w-16 h-16 rounded-2xl bg-gradient-primary flex items-center justify-center ${feature.color}`}>
+                    <Icon className="w-8 h-8 text-primary-foreground" />
                   </div>
-                  <h3 className="text-xl font-semibold">{feature.title}</h3>
-                  <p className="text-muted-foreground">{feature.description}</p>
+                  <h3 className="text-2xl font-semibold">{feature.title}</h3>
+                  <p className="text-muted-foreground text-lg leading-relaxed">{feature.description}</p>
                 </CardContent>
               </Card>
             );

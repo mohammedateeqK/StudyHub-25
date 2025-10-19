@@ -2,11 +2,12 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Navigate } from 'react-router-dom';
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { BookOpen } from 'lucide-react';
+import { BookOpen, ThumbsUp, MessageSquare, Eye } from 'lucide-react';
+import { useState } from 'react';
 
 const ViewNotes = () => {
   const { isAuthenticated } = useAuth();
-  const notes = JSON.parse(localStorage.getItem('studyhub_notes') || '[]');
+  const [notes, setNotes] = useState<any[]>(JSON.parse(localStorage.getItem('studyhub_notes') || '[]'));
 
   if (!isAuthenticated) {
     return <Navigate to="/login" />;
@@ -39,9 +40,52 @@ const ViewNotes = () => {
                   <div className="prose prose-sm max-w-none">
                     <p className="whitespace-pre-wrap text-foreground">{note.content}</p>
                   </div>
+                  <div className="mt-4 flex items-center gap-6 text-xs text-muted-foreground">
+                    <span className="inline-flex items-center gap-1"><ThumbsUp className="w-3.5 h-3.5" />{note.likes ?? 0}</span>
+                    <span className="inline-flex items-center gap-1"><MessageSquare className="w-3.5 h-3.5" />{note.comments ?? 0}</span>
+                    <span className="inline-flex items-center gap-1"><Eye className="w-3.5 h-3.5" />{note.views ?? 0}</span>
+                  </div>
+                  {note.file && (
+                    <div className="mt-4">
+                      <button
+                        onClick={() => {
+                          // increment views and persist
+                          const updated = notes.map((n: any) => n.id === note.id ? { ...n, views: (n.views || 0) + 1 } : n);
+                          setNotes(updated);
+                          localStorage.setItem('studyhub_notes', JSON.stringify(updated));
+                          window.open(note.file.url, '_blank');
+                        }}
+                        className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline"
+                      >
+                        Open Attachment ({note.file.name})
+                      </button>
+                    </div>
+                  )}
                   <p className="text-xs text-muted-foreground mt-4">
                     Uploaded on {new Date(note.uploadedAt).toLocaleDateString()}
                   </p>
+                  <div className="mt-3 flex items-center gap-3">
+                    <button
+                      onClick={() => {
+                        const updated = notes.map((n: any) => n.id === note.id ? { ...n, likes: (n.likes || 0) + 1 } : n);
+                        setNotes(updated);
+                        localStorage.setItem('studyhub_notes', JSON.stringify(updated));
+                      }}
+                      className="text-xs px-3 py-1 rounded border border-border hover:bg-muted"
+                    >
+                      Like
+                    </button>
+                    <button
+                      onClick={() => {
+                        const updated = notes.map((n: any) => n.id === note.id ? { ...n, comments: (n.comments || 0) + 1 } : n);
+                        setNotes(updated);
+                        localStorage.setItem('studyhub_notes', JSON.stringify(updated));
+                      }}
+                      className="text-xs px-3 py-1 rounded border border-border hover:bg-muted"
+                    >
+                      Comment
+                    </button>
+                  </div>
                 </CardContent>
               </Card>
             ))}

@@ -4,9 +4,9 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
   
   return (
-    <footer className="bg-card border-t border-border py-12">
+    <footer id="about" className="bg-card border-t border-border py-12 scroll-mt-24">
       <div className="container mx-auto px-4">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
           <div className="space-y-4">
             <div className="flex items-center gap-2">
               <div className="w-10 h-10 rounded-xl bg-gradient-primary flex items-center justify-center">
@@ -14,7 +14,7 @@ const Footer = () => {
               </div>
               <span className="text-xl font-bold">StudyHub</span>
             </div>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-base text-muted-foreground leading-relaxed">
               Empowering students worldwide to achieve their academic goals through innovative learning solutions.
             </p>
             <div className="flex gap-3">
