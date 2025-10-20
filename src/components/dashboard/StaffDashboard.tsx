@@ -1,20 +1,38 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { FileText, ClipboardList, Users, TrendingUp, Clock, ThumbsUp, MessageSquare, Eye, ChevronLeft, ChevronRight } from 'lucide-react';
+import { FileText, ClipboardList, Users, TrendingUp, Clock, ThumbsUp, MessageSquare, Eye, ChevronLeft, ChevronRight, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 
 const StaffDashboard = () => {
+  const [notes, setNotes] = useState<any[]>(JSON.parse(localStorage.getItem('studyhub_notes') || '[]'));
+  
   const stats = [
-    { label: 'Total Notes', value: JSON.parse(localStorage.getItem('studyhub_notes') || '[]').length, icon: FileText, color: 'text-primary' },
+    { label: 'Total Notes', value: notes.length, icon: FileText, color: 'text-primary' },
     { label: 'Active Tests', value: JSON.parse(localStorage.getItem('studyhub_tests') || '[]').length, icon: ClipboardList, color: 'text-secondary' },
     { label: 'Total Students', value: JSON.parse(localStorage.getItem('studyhub_users') || '[]').filter((u: any) => u.role === 'student').length, icon: Users, color: 'text-accent' },
   ];
 
-  const allNotes = JSON.parse(localStorage.getItem('studyhub_notes') || '[]');
-  const recentNotes = allNotes.slice(-8).reverse();
+  const recentNotes = notes.slice(-8).reverse();
   const allTests = JSON.parse(localStorage.getItem('studyhub_tests') || '[]');
   const notesRowRef = useRef<HTMLDivElement>(null);
+
+  const handleDeleteNote = (noteId: string) => {
+    const updated = notes.filter((n: any) => n.id !== noteId);
+    setNotes(updated);
+    localStorage.setItem('studyhub_notes', JSON.stringify(updated));
+  };
   const scrollNotes = (dir: 'left' | 'right') => {
     if (!notesRowRef.current) return;
     const amount = 240 * 3;
@@ -84,9 +102,32 @@ const StaffDashboard = () => {
                   <div key={note.id} className="min-w-[240px] max-w-[240px]">
                     <Card className="hover:shadow-md transition-shadow">
                       <CardContent className="p-4 space-y-2">
-                        <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                          <FileText className="w-4 h-4 text-primary" />
-                          <span>{note.file?.type?.includes('pdf') ? 'PDF' : (note.file?.type || 'Note')}</span>
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                            <FileText className="w-4 h-4 text-primary" />
+                            <span>{note.file?.type?.includes('pdf') ? 'PDF' : (note.file?.type || 'Note')}</span>
+                          </div>
+                          <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                              <Button variant="ghost" size="icon" className="h-6 w-6">
+                                <Trash2 className="w-3 h-3" />
+                              </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>Delete Note</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  Are you sure you want to delete this note? This action cannot be undone.
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction onClick={() => handleDeleteNote(note.id)}>
+                                  Delete
+                                </AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
                         </div>
                         <p className="font-medium truncate">{note.title}</p>
                         <p className="text-xs text-muted-foreground truncate">{note.subject}</p>
