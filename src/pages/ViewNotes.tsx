@@ -2,6 +2,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Navigate } from 'react-router-dom';
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+<<<<<<< HEAD
 import { BookOpen, ThumbsUp, MessageSquare, Eye } from 'lucide-react';
 import { useState } from 'react';
 
@@ -9,6 +10,33 @@ const ViewNotes = () => {
   const { isAuthenticated } = useAuth();
   const [notes, setNotes] = useState<any[]>(JSON.parse(localStorage.getItem('studyhub_notes') || '[]'));
 
+=======
+import { BookOpen, ThumbsUp, MessageSquare, Eye, Trash2 } from 'lucide-react';
+import { useState } from 'react';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
+
+const ViewNotes = () => {
+  const { user, isAuthenticated } = useAuth();
+  const [notes, setNotes] = useState<any[]>(JSON.parse(localStorage.getItem('studyhub_notes') || '[]'));
+
+  const handleDeleteNote = (noteId: string) => {
+    const updated = notes.filter((n: any) => n.id !== noteId);
+    setNotes(updated);
+    localStorage.setItem('studyhub_notes', JSON.stringify(updated));
+  };
+
+>>>>>>> b8bbcfb4e065947d48fc3173279e510ce6af8d91
   if (!isAuthenticated) {
     return <Navigate to="/login" />;
   }
@@ -34,6 +62,32 @@ const ViewNotes = () => {
                       <CardTitle>{note.title}</CardTitle>
                       <CardDescription className="mt-1">{note.subject}</CardDescription>
                     </div>
+<<<<<<< HEAD
+=======
+                    {user?.role === 'staff' && user?.id === note.uploadedBy && (
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                          <Button variant="outline" size="icon">
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>Delete Note</AlertDialogTitle>
+                            <AlertDialogDescription>
+                              Are you sure you want to delete this note? This action cannot be undone.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogAction onClick={() => handleDeleteNote(note.id)}>
+                              Delete
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
+                    )}
+>>>>>>> b8bbcfb4e065947d48fc3173279e510ce6af8d91
                   </div>
                 </CardHeader>
                 <CardContent>
