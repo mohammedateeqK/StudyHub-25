@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -14,6 +14,7 @@ const UploadNotes = () => {
   const [subject, setSubject] = useState('');
   const [content, setContent] = useState('');
   const [file, setFile] = useState<File | null>(null);
+  const navigate = useNavigate();
 
   if (!isAuthenticated || user?.role !== 'staff') {
     return <Navigate to="/dashboard" />;
@@ -67,6 +68,7 @@ const UploadNotes = () => {
     setSubject('');
     setContent('');
     setFile(null);
+    navigate('/notes');
   };
 
   return (
