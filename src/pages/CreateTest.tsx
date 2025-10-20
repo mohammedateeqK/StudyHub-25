@@ -1,23 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
-import { Navigate } from 'react-router-dom';
+import { Navigate, Link } from 'react-router-dom';
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/hooks/use-toast';
-import { Plus, Trash, Trash2, FileText } from 'lucide-react';
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
+import { Plus, Trash } from 'lucide-react';
 
 interface Question {
   id: string;
@@ -33,26 +22,6 @@ const CreateTest = () => {
   const [questions, setQuestions] = useState<Question[]>([
     { id: '1', question: '', options: ['', '', '', ''], correctAnswer: 0 }
   ]);
-  const [createdTests, setCreatedTests] = useState<any[]>([]);
-
-  useEffect(() => {
-    if (user) {
-      const tests = JSON.parse(localStorage.getItem('studyhub_tests') || '[]');
-      const myTests = tests.filter((t: any) => t.createdBy === user.id);
-      setCreatedTests(myTests);
-    }
-  }, [user]);
-
-  const handleDeleteTest = (testId: string) => {
-    const tests = JSON.parse(localStorage.getItem('studyhub_tests') || '[]');
-    const updated = tests.filter((t: any) => t.id !== testId);
-    localStorage.setItem('studyhub_tests', JSON.stringify(updated));
-    setCreatedTests(updated.filter((t: any) => t.createdBy === user?.id));
-    toast({
-      title: "Test deleted",
-      description: "The test has been removed successfully.",
-    });
-  };
 
   if (!isAuthenticated || user?.role !== 'staff') {
     return <Navigate to="/dashboard" />;
@@ -110,64 +79,20 @@ const CreateTest = () => {
     setTitle('');
     setSubject('');
     setQuestions([{ id: '1', question: '', options: ['', '', '', ''], correctAnswer: 0 }]);
-    
-    // Refresh created tests list
-    const updatedTests = JSON.parse(localStorage.getItem('studyhub_tests') || '[]');
-    setCreatedTests(updatedTests.filter((t: any) => t.createdBy === user.id));
   };
 
   return (
     <DashboardLayout>
       <div className="max-w-4xl space-y-8">
-        <div>
-          <h1 className="text-3xl font-bold mb-2">Create Test</h1>
-          <p className="text-muted-foreground">Design a new test for students</p>
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold mb-2">Create Test</h1>
+            <p className="text-muted-foreground">Design a new test for students</p>
+          </div>
+          <Link to="/tests/created">
+            <Button variant="outline">View My Tests</Button>
+          </Link>
         </div>
-
-        {createdTests.length > 0 && (
-          <Card>
-            <CardHeader>
-              <CardTitle>Your Created Tests</CardTitle>
-              <CardDescription>Manage your existing tests</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                {createdTests.map((test: any) => (
-                  <div key={test.id} className="flex items-center justify-between p-3 border rounded-lg">
-                    <div className="flex items-center gap-3">
-                      <FileText className="w-5 h-5 text-primary" />
-                      <div>
-                        <p className="font-medium">{test.title}</p>
-                        <p className="text-sm text-muted-foreground">{test.subject} • {test.questions.length} questions</p>
-                      </div>
-                    </div>
-                    <AlertDialog>
-                      <AlertDialogTrigger asChild>
-                        <Button variant="outline" size="icon">
-                          <Trash2 className="w-4 h-4" />
-                        </Button>
-                      </AlertDialogTrigger>
-                      <AlertDialogContent>
-                        <AlertDialogHeader>
-                          <AlertDialogTitle>Delete Test</AlertDialogTitle>
-                          <AlertDialogDescription>
-                            Are you sure you want to delete "{test.title}"? This will also remove all student results for this test. This action cannot be undone.
-                          </AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                          <AlertDialogCancel>Cancel</AlertDialogCancel>
-                          <AlertDialogAction onClick={() => handleDeleteTest(test.id)}>
-                            Delete
-                          </AlertDialogAction>
-                        </AlertDialogFooter>
-                      </AlertDialogContent>
-                    </AlertDialog>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        )}
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <Card>

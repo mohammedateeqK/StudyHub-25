@@ -10,8 +10,10 @@ import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
 import UploadNotes from "./pages/UploadNotes";
+import UploadedNotes from "./pages/UploadedNotes";
 import ViewNotes from "./pages/ViewNotes";
 import CreateTest from "./pages/CreateTest";
+import CreatedTests from "./pages/CreatedTests";
 import TakeTest from "./pages/TakeTest";
 import Results from "./pages/Results";
 import NotFound from "./pages/NotFound";
@@ -32,8 +34,10 @@ const App = () => (
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/notes/upload" element={<UploadNotes />} />
+            <Route path="/notes/uploaded" element={<UploadedNotes />} />
             <Route path="/notes" element={<ViewNotes />} />
             <Route path="/tests/create" element={<CreateTest />} />
+            <Route path="/tests/created" element={<CreatedTests />} />
             <Route path="/tests" element={<TakeTest />} />
             <Route path="/results" element={<Results />} />
             <Route path="*" element={<NotFound />} />
