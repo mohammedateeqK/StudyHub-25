@@ -1,6 +1,10 @@
 import { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
+<<<<<<< HEAD
+import { Navigate } from 'react-router-dom';
+=======
 import { Navigate, useNavigate, Link } from 'react-router-dom';
+>>>>>>> b8bbcfb4e065947d48fc3173279e510ce6af8d91
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -14,7 +18,10 @@ const UploadNotes = () => {
   const [subject, setSubject] = useState('');
   const [content, setContent] = useState('');
   const [file, setFile] = useState<File | null>(null);
+<<<<<<< HEAD
+=======
   const navigate = useNavigate();
+>>>>>>> b8bbcfb4e065947d48fc3173279e510ce6af8d91
 
   if (!isAuthenticated || user?.role !== 'staff') {
     return <Navigate to="/dashboard" />;
@@ -68,12 +75,20 @@ const UploadNotes = () => {
     setSubject('');
     setContent('');
     setFile(null);
+<<<<<<< HEAD
+=======
     navigate('/notes');
+>>>>>>> b8bbcfb4e065947d48fc3173279e510ce6af8d91
   };
 
   return (
     <DashboardLayout>
       <div className="max-w-3xl space-y-8">
+<<<<<<< HEAD
+        <div>
+          <h1 className="text-3xl font-bold mb-2">Upload Notes</h1>
+          <p className="text-muted-foreground">Share study materials with students</p>
+=======
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold mb-2">Upload Notes</h1>
@@ -82,6 +97,7 @@ const UploadNotes = () => {
           <Link to="/notes/uploaded">
             <Button variant="outline">View My Uploads</Button>
           </Link>
+>>>>>>> b8bbcfb4e065947d48fc3173279e510ce6af8d91
         </div>
 
         <Card>

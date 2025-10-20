@@ -1,4 +1,14 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+<<<<<<< HEAD
+import { FileText, ClipboardList, Users, TrendingUp, Clock, ThumbsUp, MessageSquare, Eye, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
+import { useRef } from 'react';
+
+const StaffDashboard = () => {
+  const stats = [
+    { label: 'Total Notes', value: JSON.parse(localStorage.getItem('studyhub_notes') || '[]').length, icon: FileText, color: 'text-primary' },
+=======
 import { FileText, ClipboardList, Users, TrendingUp, Clock, ThumbsUp, MessageSquare, Eye, ChevronLeft, ChevronRight, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
@@ -20,10 +30,17 @@ const StaffDashboard = () => {
   
   const stats = [
     { label: 'Total Notes', value: notes.length, icon: FileText, color: 'text-primary' },
+>>>>>>> b8bbcfb4e065947d48fc3173279e510ce6af8d91
     { label: 'Active Tests', value: JSON.parse(localStorage.getItem('studyhub_tests') || '[]').length, icon: ClipboardList, color: 'text-secondary' },
     { label: 'Total Students', value: JSON.parse(localStorage.getItem('studyhub_users') || '[]').filter((u: any) => u.role === 'student').length, icon: Users, color: 'text-accent' },
   ];
 
+<<<<<<< HEAD
+  const allNotes = JSON.parse(localStorage.getItem('studyhub_notes') || '[]');
+  const recentNotes = allNotes.slice(-8).reverse();
+  const allTests = JSON.parse(localStorage.getItem('studyhub_tests') || '[]');
+  const notesRowRef = useRef<HTMLDivElement>(null);
+=======
   const recentNotes = notes.slice(-8).reverse();
   const allTests = JSON.parse(localStorage.getItem('studyhub_tests') || '[]');
   const notesRowRef = useRef<HTMLDivElement>(null);
@@ -33,6 +50,7 @@ const StaffDashboard = () => {
     setNotes(updated);
     localStorage.setItem('studyhub_notes', JSON.stringify(updated));
   };
+>>>>>>> b8bbcfb4e065947d48fc3173279e510ce6af8d91
   const scrollNotes = (dir: 'left' | 'right') => {
     if (!notesRowRef.current) return;
     const amount = 240 * 3;
@@ -102,6 +120,11 @@ const StaffDashboard = () => {
                   <div key={note.id} className="min-w-[240px] max-w-[240px]">
                     <Card className="hover:shadow-md transition-shadow">
                       <CardContent className="p-4 space-y-2">
+<<<<<<< HEAD
+                        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                          <FileText className="w-4 h-4 text-primary" />
+                          <span>{note.file?.type?.includes('pdf') ? 'PDF' : (note.file?.type || 'Note')}</span>
+=======
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-2 text-xs text-muted-foreground">
                             <FileText className="w-4 h-4 text-primary" />
@@ -128,6 +151,7 @@ const StaffDashboard = () => {
                               </AlertDialogFooter>
                             </AlertDialogContent>
                           </AlertDialog>
+>>>>>>> b8bbcfb4e065947d48fc3173279e510ce6af8d91
                         </div>
                         <p className="font-medium truncate">{note.title}</p>
                         <p className="text-xs text-muted-foreground truncate">{note.subject}</p>
