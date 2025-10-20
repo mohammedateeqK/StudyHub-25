@@ -1,10 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
-<<<<<<< HEAD
-import { Navigate } from 'react-router-dom';
-=======
 import { Navigate, Link } from 'react-router-dom';
->>>>>>> b8bbcfb4e065947d48fc3173279e510ce6af8d91
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -88,11 +84,6 @@ const CreateTest = () => {
   return (
     <DashboardLayout>
       <div className="max-w-4xl space-y-8">
-<<<<<<< HEAD
-        <div>
-          <h1 className="text-3xl font-bold mb-2">Create Test</h1>
-          <p className="text-muted-foreground">Design a new test for students</p>
-=======
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold mb-2">Create Test</h1>
@@ -101,7 +92,6 @@ const CreateTest = () => {
           <Link to="/tests/created">
             <Button variant="outline">View My Tests</Button>
           </Link>
->>>>>>> b8bbcfb4e065947d48fc3173279e510ce6af8d91
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
