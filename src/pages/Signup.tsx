@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { BookOpen, GraduationCap, Users, ArrowLeft } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
+import bgPattern from '@/assets/bg-pattern-1.png';
 
 const Signup = () => {
   const [email, setEmail] = useState('');
@@ -36,9 +37,13 @@ const Signup = () => {
   };
 
   return (
-    <div className="min-h-screen grid md:grid-cols-2">
+    <div className="min-h-screen grid md:grid-cols-2 relative">
+      <div 
+        className="fixed inset-0 opacity-20 pointer-events-none z-0"
+        style={{ backgroundImage: `url(${bgPattern})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+      />
       {/* Left branding */}
-      <div className="hidden md:flex items-center justify-center bg-gradient-subtle">
+      <div className="hidden md:flex items-center justify-center bg-gradient-subtle relative z-10">
         <div className="max-w-lg px-8">
           <div className="flex items-center gap-3 mb-10">
             <div className="w-14 h-14 rounded-xl bg-gradient-primary flex items-center justify-center">
@@ -51,7 +56,7 @@ const Signup = () => {
       </div>
 
       {/* Right: form */}
-      <div className="relative flex items-center justify-center bg-gradient-mesh bg-gradient-subtle">
+      <div className="relative flex items-center justify-center bg-gradient-mesh bg-gradient-subtle z-10">
         {/* Back arrow */}
         <Link to="/" className="absolute top-6 left-6 p-2 rounded-full bg-white/70 hover:bg-white transition-colors">
           <ArrowLeft className="w-5 h-5 text-foreground" />
