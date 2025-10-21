@@ -36,7 +36,7 @@ const Login = () => {
   return (
     <div className="min-h-screen grid md:grid-cols-2">
       {/* Left pane: logo and tagline */}
-      <div className="hidden md:flex items-center justify-center">
+      <div className="hidden md:flex items-center justify-center bg-gradient-subtle">
         <div className="max-w-lg px-8">
           <div className="flex items-center gap-3 mb-10">
             <div className="w-14 h-14 rounded-xl bg-gradient-primary flex items-center justify-center">
@@ -49,7 +49,7 @@ const Login = () => {
       </div>
 
       {/* Right pane: gradient bg with form */}
-      <div className="relative flex items-center justify-center bg-gradient-primary/20">
+      <div className="relative flex items-center justify-center bg-gradient-mesh bg-gradient-subtle">
         {/* Back arrow */}
         <Link to="/" className="absolute top-6 left-6 p-2 rounded-full bg-white/70 hover:bg-white transition-colors">
           <ArrowLeft className="w-5 h-5 text-foreground" />

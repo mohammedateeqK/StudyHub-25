@@ -54,9 +54,11 @@ const Dashboard = () => {
   }
 
   return (
-    <DashboardLayout>
-      {user?.role === 'staff' ? <StaffDashboard /> : <StudentDashboard />}
-    </DashboardLayout>
+    <div className="min-h-screen bg-gradient-page">
+      <DashboardLayout>
+        {user?.role === 'staff' ? <StaffDashboard /> : <StudentDashboard />}
+      </DashboardLayout>
+    </div>
   );
 };
 

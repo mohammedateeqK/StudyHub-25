@@ -28,7 +28,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const links = user?.role === 'staff' ? staffLinks : studentLinks;
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-page">
       <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
@@ -52,7 +52,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
       </nav>
 
       <div className="flex pt-16">
-        <aside className="fixed left-0 top-16 bottom-0 w-64 bg-card border-r border-border p-4 overflow-y-auto">
+        <aside className="fixed left-0 top-16 bottom-0 w-64 bg-card/95 backdrop-blur-sm border-r border-border p-4 overflow-y-auto">
           <nav className="space-y-2">
             {links.map((link) => {
               const Icon = link.icon;

@@ -109,6 +109,9 @@ export default {
         "gradient-primary": "var(--gradient-primary)",
         "gradient-hero": "var(--gradient-hero)",
         "gradient-accent": "var(--gradient-accent)",
+        "gradient-mesh": "var(--gradient-mesh)",
+        "gradient-subtle": "var(--gradient-subtle)",
+        "gradient-page": "var(--gradient-page)",
       },
       boxShadow: {
         "sm": "var(--shadow-sm)",

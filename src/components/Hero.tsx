@@ -5,7 +5,7 @@ import heroImage from "@/assets/hero-image.jpg";
 
 const Hero = () => {
   return (
-    <section className="relative overflow-hidden bg-gradient-hero pt-32 pb-40">
+    <section className="relative overflow-hidden bg-gradient-mesh bg-gradient-hero pt-32 pb-40">
       {/* background subtle grid + noise overlay */}
       <div className="pointer-events-none absolute inset-0 opacity-[0.08] [mask-image:radial-gradient(ellipse_at_center,black,transparent_70%)]" aria-hidden>
         <svg className="absolute -top-10 left-1/2 -translate-x-1/2" width="960" height="600" viewBox="0 0 960 600">
