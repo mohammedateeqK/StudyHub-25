@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { BookOpen, GraduationCap, Users, ArrowLeft } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
-import bgPattern from '@/assets/bg-pattern-1.png';
+import bgSignup from '@/assets/bg-signup.png';
 
 const Signup = () => {
   const [email, setEmail] = useState('');
@@ -39,8 +39,8 @@ const Signup = () => {
   return (
     <div className="min-h-screen grid md:grid-cols-2 relative">
       <div 
-        className="fixed inset-0 opacity-20 pointer-events-none z-0"
-        style={{ backgroundImage: `url(${bgPattern})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+        className="fixed inset-0 opacity-30 pointer-events-none z-0"
+        style={{ backgroundImage: `url(${bgSignup})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
       />
       {/* Left branding */}
       <div className="hidden md:flex items-center justify-center bg-gradient-subtle relative z-10">
