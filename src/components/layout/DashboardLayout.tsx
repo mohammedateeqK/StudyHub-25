@@ -1,12 +1,13 @@
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
-import { BookOpen, Home, FileText, ClipboardList, BarChart, User, LogOut } from 'lucide-react';
-import { Link, useLocation } from 'react-router-dom';
+import { BookOpen, Home, FileText, ClipboardList, BarChart, User, LogOut, ArrowLeft } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import bgWave from '@/assets/bg-wave.png';
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const { user, logout } = useAuth();
   const location = useLocation();
+  const navigate = useNavigate();
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -37,11 +38,22 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
       <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-2">
-              <div className="w-10 h-10 rounded-xl bg-gradient-primary flex items-center justify-center">
-                <BookOpen className="w-6 h-6 text-primary-foreground" />
+            <div className="flex items-center gap-4">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => navigate(-1)}
+                className="hover:bg-muted"
+              >
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back
+              </Button>
+              <div className="flex items-center gap-2">
+                <div className="w-10 h-10 rounded-xl bg-gradient-primary flex items-center justify-center">
+                  <BookOpen className="w-6 h-6 text-primary-foreground" />
+                </div>
+                <span className="text-xl font-bold">StudyHub</span>
               </div>
-              <span className="text-xl font-bold">StudyHub</span>
             </div>
             <div className="flex items-center gap-3">
               <span className="text-sm text-muted-foreground">
