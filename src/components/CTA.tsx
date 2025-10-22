@@ -15,13 +15,13 @@ const CTA = () => {
           </div>
           
           <h2 className="text-5xl lg:text-7xl font-bold text-white leading-[0.9]">
-            Ready to Transform Your
-            <span className="block">Study Experience?</span>
+            Access Quality Notes &
+            <span className="block">Ace Your Tests</span>
           </h2>
           
           <p className="text-xl lg:text-2xl text-white/90 max-w-3xl mx-auto leading-relaxed">
-            Join thousands of successful students today. Get started with StudyHub for free 
-            and unlock your full academic potential.
+            Get comprehensive study notes and practice with expertly crafted tests. 
+            Everything you need to excel in your academics.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-6 justify-center pt-6">
@@ -31,17 +31,10 @@ const CTA = () => {
                 size="lg" 
                 className="bg-white hover:bg-white/90 text-primary shadow-xl group text-lg px-10 py-5"
               >
-                Start Your Free Trial
+                Get Notes & Tests
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>
             </Link>
-            <Button 
-              variant="outline" 
-              size="lg"
-              className="border-2 border-white text-white hover:bg-white hover:text-primary text-lg px-10 py-5"
-            >
-              Schedule a Demo
-            </Button>
           </div>
           
           <p className="text-base text-white/80">
