@@ -45,9 +45,6 @@ const Hero = () => {
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </Link>
-              <Button variant="outline" size="lg" className="text-lg px-8 py-4 hover:shadow-md">
-                Watch Demo
-              </Button>
             </div>
             
             <div className="flex items-center gap-12 pt-8">

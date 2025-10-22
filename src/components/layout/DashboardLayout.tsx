@@ -2,7 +2,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { BookOpen, Home, FileText, ClipboardList, BarChart, User, LogOut, ArrowLeft } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import bgWave from '@/assets/bg-wave.png';
+import bgDashboard from '@/assets/bg-dashboard.png';
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const { user, logout } = useAuth();
@@ -32,8 +32,8 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="min-h-screen bg-gradient-page relative">
       <div 
-        className="fixed inset-0 opacity-10 pointer-events-none z-0"
-        style={{ backgroundImage: `url(${bgWave})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+        className="fixed inset-0 opacity-20 pointer-events-none z-0"
+        style={{ backgroundImage: `url(${bgDashboard})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
       />
       <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border">
         <div className="container mx-auto px-4">
