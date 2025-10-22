@@ -1,4 +1,4 @@
-import { UserPlus, Calendar, Rocket, CheckCircle } from "lucide-react";
+import { UserPlus, BookOpen, FileText, Award } from "lucide-react";
 
 const steps = [
   {
@@ -8,21 +8,21 @@ const steps = [
     step: "01",
   },
   {
-    icon: Calendar,
-    title: "Set Your Goals",
-    description: "Define your study objectives and let us create a personalized plan.",
+    icon: BookOpen,
+    title: "Access Study Notes",
+    description: "Browse and upload comprehensive notes for all your subjects.",
     step: "02",
   },
   {
-    icon: Rocket,
-    title: "Start Learning",
-    description: "Follow your customized study plan and track your progress.",
+    icon: FileText,
+    title: "Take Practice Tests",
+    description: "Test your knowledge with expertly crafted assessments.",
     step: "03",
   },
   {
-    icon: CheckCircle,
-    title: "Achieve Success",
-    description: "Reach your academic goals and celebrate your achievements.",
+    icon: Award,
+    title: "Ace Your Exams",
+    description: "Track your progress and excel in your academic journey.",
     step: "04",
   },
 ];
