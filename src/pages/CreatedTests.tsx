@@ -4,7 +4,6 @@ import DashboardLayout from '@/components/layout/DashboardLayout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { ClipboardList, Trash2, Calendar } from 'lucide-react';
 import { useState } from 'react';
-import { safeParseArray } from '@/lib/utils';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -22,7 +21,7 @@ import bgMesh from '@/assets/bg-mesh.png';
 
 const CreatedTests = () => {
   const { user, isAuthenticated } = useAuth();
-  const allTests = safeParseArray(localStorage.getItem('studyhub_tests'));
+  const allTests = JSON.parse(localStorage.getItem('studyhub_tests') || '[]');
   const [myTests, setMyTests] = useState<any[]>(
     allTests.filter((test: any) => test.createdBy === user?.id)
   );
