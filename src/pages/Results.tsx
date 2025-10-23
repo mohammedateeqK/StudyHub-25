@@ -3,6 +3,7 @@ import { Navigate } from 'react-router-dom';
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Trophy, TrendingUp, TrendingDown } from 'lucide-react';
+import bgMesh from '@/assets/bg-mesh.png';
 
 const Results = () => {
   const { user, isAuthenticated } = useAuth();
@@ -33,8 +34,14 @@ const Results = () => {
   };
 
   return (
-    <DashboardLayout>
-      <div className="space-y-8">
+    <div className="min-h-screen bg-gradient-page relative">
+      <div 
+        className="fixed inset-0 opacity-30 pointer-events-none z-0"
+        style={{ backgroundImage: `url(${bgMesh})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+      />
+      <div className="relative z-10">
+        <DashboardLayout>
+          <div className="space-y-8">
         <div>
           <h1 className="text-3xl font-bold mb-2">
             {user?.role === 'staff' ? 'Student Results' : 'My Results'}
@@ -111,8 +118,10 @@ const Results = () => {
             </CardContent>
           </Card>
         )}
+          </div>
+        </DashboardLayout>
       </div>
-    </DashboardLayout>
+    </div>
   );
 };
 

@@ -16,6 +16,7 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
+import bgMesh from '@/assets/bg-mesh.png';
 
 const UploadedNotes = () => {
   const { user, isAuthenticated } = useAuth();
@@ -35,8 +36,14 @@ const UploadedNotes = () => {
   }
 
   return (
-    <DashboardLayout>
-      <div className="space-y-8">
+    <div className="min-h-screen bg-gradient-page relative">
+      <div 
+        className="fixed inset-0 opacity-30 pointer-events-none z-0"
+        style={{ backgroundImage: `url(${bgMesh})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+      />
+      <div className="relative z-10">
+        <DashboardLayout>
+          <div className="space-y-8">
         <div>
           <h1 className="text-3xl font-bold mb-2">My Uploaded Notes</h1>
           <p className="text-muted-foreground">View and manage all notes you've uploaded</p>
@@ -112,8 +119,10 @@ const UploadedNotes = () => {
             </CardContent>
           </Card>
         )}
+          </div>
+        </DashboardLayout>
       </div>
-    </DashboardLayout>
+    </div>
   );
 };
 

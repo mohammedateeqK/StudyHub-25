@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/hooks/use-toast';
+import bgMesh from '@/assets/bg-mesh.png';
 
 const Profile = () => {
   const { user, isAuthenticated } = useAuth();
@@ -33,8 +34,14 @@ const Profile = () => {
   };
 
   return (
-    <DashboardLayout>
-      <div className="max-w-2xl space-y-8">
+    <div className="min-h-screen bg-gradient-page relative">
+      <div 
+        className="fixed inset-0 opacity-30 pointer-events-none z-0"
+        style={{ backgroundImage: `url(${bgMesh})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+      />
+      <div className="relative z-10">
+        <DashboardLayout>
+          <div className="max-w-2xl space-y-8">
         <div>
           <h1 className="text-3xl font-bold mb-2">Profile Settings</h1>
           <p className="text-muted-foreground">Manage your account information</p>
@@ -67,8 +74,10 @@ const Profile = () => {
             </Button>
           </CardContent>
         </Card>
+          </div>
+        </DashboardLayout>
       </div>
-    </DashboardLayout>
+    </div>
   );
 };
 

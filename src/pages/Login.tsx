@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { BookOpen, ArrowLeft } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
-import bgLogin from '@/assets/bg-login.png';
+import bgMesh from '@/assets/bg-mesh.png';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -38,7 +38,7 @@ const Login = () => {
     <div className="min-h-screen grid md:grid-cols-2 relative">
       <div 
         className="fixed inset-0 opacity-30 pointer-events-none z-0"
-        style={{ backgroundImage: `url(${bgLogin})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+        style={{ backgroundImage: `url(${bgMesh})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
       />
       {/* Left pane: logo and tagline */}
       <div className="hidden md:flex items-center justify-center relative z-10">

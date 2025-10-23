@@ -2,6 +2,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Home } from "lucide-react";
+import bgMesh from "@/assets/bg-mesh.png";
 
 const NotFound = () => {
   const location = useLocation();
@@ -13,6 +14,10 @@ const NotFound = () => {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-page relative">
+      <div 
+        className="fixed inset-0 opacity-30 pointer-events-none z-0"
+        style={{ backgroundImage: `url(${bgMesh})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+      />
       <Button
         variant="ghost"
         size="sm"
@@ -22,7 +27,7 @@ const NotFound = () => {
         <ArrowLeft className="w-4 h-4 mr-2" />
         Back
       </Button>
-      <div className="text-center">
+      <div className="text-center relative z-10">
         <h1 className="mb-4 text-6xl font-bold">404</h1>
         <p className="mb-8 text-xl text-muted-foreground">Oops! Page not found</p>
         <div className="flex gap-4 justify-center">

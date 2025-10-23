@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from '@/hooks/use-toast';
+import bgMesh from '@/assets/bg-mesh.png';
 
 const UploadNotes = () => {
   const { user, isAuthenticated } = useAuth();
@@ -72,8 +73,14 @@ const UploadNotes = () => {
   };
 
   return (
-    <DashboardLayout>
-      <div className="max-w-3xl space-y-8">
+    <div className="min-h-screen bg-gradient-page relative">
+      <div 
+        className="fixed inset-0 opacity-30 pointer-events-none z-0"
+        style={{ backgroundImage: `url(${bgMesh})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+      />
+      <div className="relative z-10">
+        <DashboardLayout>
+          <div className="max-w-3xl space-y-8">
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold mb-2">Upload Notes</h1>
@@ -135,9 +142,11 @@ const UploadNotes = () => {
               </Button>
             </form>
           </CardContent>
-        </Card>
+          </Card>
+          </div>
+        </DashboardLayout>
       </div>
-    </DashboardLayout>
+    </div>
   );
 };
 

@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { toast } from '@/hooks/use-toast';
 import { ClipboardList, Search, Filter, ChevronLeft, ChevronRight, Info } from 'lucide-react';
 import { Input } from '@/components/ui/input';
+import bgMesh from '@/assets/bg-mesh.png';
 
 const TakeTest = () => {
   const { user, isAuthenticated } = useAuth();
@@ -64,8 +65,14 @@ const TakeTest = () => {
 
   if (!selectedTest) {
     return (
-      <DashboardLayout>
-        <div className="space-y-8">
+      <div className="min-h-screen bg-gradient-page relative">
+        <div 
+          className="fixed inset-0 opacity-30 pointer-events-none z-0"
+          style={{ backgroundImage: `url(${bgMesh})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+        />
+        <div className="relative z-10">
+          <DashboardLayout>
+            <div className="space-y-8">
           {/* Header with search */}
           <div className="flex items-center justify-between">
             <h1 className="text-4xl font-bold">Attend Tests</h1>
@@ -172,15 +179,23 @@ const TakeTest = () => {
             ) : (
               <Card><CardContent className="p-6 text-center text-muted-foreground">No upcoming tests</CardContent></Card>
             )}
-          </section>
-        </div>
-      </DashboardLayout>
+            </section>
+          </div>
+        </DashboardLayout>
+      </div>
+    </div>
     );
   }
 
   return (
-    <DashboardLayout>
-      <div className="max-w-3xl space-y-8">
+    <div className="min-h-screen bg-gradient-page relative">
+      <div 
+        className="fixed inset-0 opacity-30 pointer-events-none z-0"
+        style={{ backgroundImage: `url(${bgMesh})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+      />
+      <div className="relative z-10">
+        <DashboardLayout>
+          <div className="max-w-3xl space-y-8">
         <div>
           <Button variant="ghost" onClick={() => setSelectedTest(null)}>
             ← Back to Tests
@@ -229,8 +244,10 @@ const TakeTest = () => {
         >
           Submit Test
         </Button>
+          </div>
+        </DashboardLayout>
       </div>
-    </DashboardLayout>
+    </div>
   );
 };
 

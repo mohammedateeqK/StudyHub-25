@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import StaffDashboard from '@/components/dashboard/StaffDashboard';
 import StudentDashboard from '@/components/dashboard/StudentDashboard';
 import DashboardLayout from '@/components/layout/DashboardLayout';
+import bgMesh from '@/assets/bg-mesh.png';
 
 const Dashboard = () => {
   const { user, isAuthenticated } = useAuth();
@@ -54,10 +55,16 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-page">
-      <DashboardLayout>
-        {user?.role === 'staff' ? <StaffDashboard /> : <StudentDashboard />}
-      </DashboardLayout>
+    <div className="min-h-screen bg-gradient-page relative">
+      <div 
+        className="fixed inset-0 opacity-30 pointer-events-none z-0"
+        style={{ backgroundImage: `url(${bgMesh})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+      />
+      <div className="relative z-10">
+        <DashboardLayout>
+          {user?.role === 'staff' ? <StaffDashboard /> : <StudentDashboard />}
+        </DashboardLayout>
+      </div>
     </div>
   );
 };
