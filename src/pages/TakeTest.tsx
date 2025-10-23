@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { toast } from '@/hooks/use-toast';
 import { ClipboardList, Search, Filter, ChevronLeft, ChevronRight, Info } from 'lucide-react';
 import { Input } from '@/components/ui/input';
+import { safeParseArray } from '@/lib/utils';
 import bgMesh from '@/assets/bg-mesh.png';
 
 const TakeTest = () => {
@@ -14,7 +15,7 @@ const TakeTest = () => {
   const navigate = useNavigate();
   const [selectedTest, setSelectedTest] = useState<any>(null);
   const [answers, setAnswers] = useState<{ [key: string]: number }>({});
-  const tests = JSON.parse(localStorage.getItem('studyhub_tests') || '[]');
+  const tests = safeParseArray(localStorage.getItem('studyhub_tests'));
   const [searchQuery, setSearchQuery] = useState('');
   const availableTestsRef = useRef<HTMLDivElement>(null);
   const upcomingTestsRef = useRef<HTMLDivElement>(null);
@@ -42,7 +43,7 @@ const TakeTest = () => {
 
     const percentage = (score / selectedTest.questions.length) * 100;
 
-    const results = JSON.parse(localStorage.getItem('studyhub_results') || '[]');
+  const results = safeParseArray(localStorage.getItem('studyhub_results'));
     results.push({
       id: Date.now().toString(),
       testId: selectedTest.id,

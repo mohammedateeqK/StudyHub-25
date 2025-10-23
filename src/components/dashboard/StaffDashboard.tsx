@@ -3,6 +3,7 @@ import { FileText, ClipboardList, Users, TrendingUp, Clock, ThumbsUp, MessageSqu
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { useRef, useState } from 'react';
+import { safeParseArray } from '@/lib/utils';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -20,12 +21,12 @@ const StaffDashboard = () => {
   
   const stats = [
     { label: 'Total Notes', value: notes.length, icon: FileText, color: 'text-primary' },
-    { label: 'Active Tests', value: JSON.parse(localStorage.getItem('studyhub_tests') || '[]').length, icon: ClipboardList, color: 'text-secondary' },
-    { label: 'Total Students', value: JSON.parse(localStorage.getItem('studyhub_users') || '[]').filter((u: any) => u.role === 'student').length, icon: Users, color: 'text-accent' },
+      { label: 'Active Tests', value: safeParseArray(localStorage.getItem('studyhub_tests')).length, icon: ClipboardList, color: 'text-secondary' },
+      { label: 'Total Students', value: safeParseArray(localStorage.getItem('studyhub_users')).filter((u: any) => u.role === 'student').length, icon: Users, color: 'text-accent' },
   ];
 
   const recentNotes = notes.slice(-8).reverse();
-  const allTests = JSON.parse(localStorage.getItem('studyhub_tests') || '[]');
+    const allTests = safeParseArray(localStorage.getItem('studyhub_tests'));
   const notesRowRef = useRef<HTMLDivElement>(null);
 
   const handleDeleteNote = (noteId: string) => {

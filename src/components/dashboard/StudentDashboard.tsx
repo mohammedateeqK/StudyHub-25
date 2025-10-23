@@ -4,25 +4,33 @@ import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRef } from 'react';
+import { safeParseArray } from '@/lib/utils';
 
 const StudentDashboard = () => {
   const { user } = useAuth();
-  const userResults = JSON.parse(localStorage.getItem('studyhub_results') || '[]').filter((r: any) => r.studentId === user?.id);
+  const userResults = safeParseArray(localStorage.getItem('studyhub_results')).filter((r: any) => r.studentId === user?.id);
   const averageScore = userResults.length > 0 
     ? (userResults.reduce((acc: number, r: any) => acc + r.score, 0) / userResults.length).toFixed(1)
     : 0;
 
   const stats = [
-    { label: 'Available Notes', value: JSON.parse(localStorage.getItem('studyhub_notes') || '[]').length, icon: FileText, color: 'text-primary' },
+    { label: 'Available Notes', value: safeParseArray(localStorage.getItem('studyhub_notes')).length, icon: FileText, color: 'text-primary' },
     { label: 'Tests Completed', value: userResults.length, icon: ClipboardList, color: 'text-secondary' },
     { label: 'Average Score', value: `${averageScore}%`, icon: Trophy, color: 'text-accent' },
   ];
 
-  const allNotes = JSON.parse(localStorage.getItem('studyhub_notes') || '[]');
+  const allNotes = safeParseArray(localStorage.getItem('studyhub_notes'));
   const recentNotes = allNotes.slice(-8).reverse();
-  const allTests = JSON.parse(localStorage.getItem('studyhub_tests') || '[]');
+  const allTests = safeParseArray(localStorage.getItem('studyhub_tests'));
   const upcomingTests = allTests.slice(-5).reverse();
-  const timeData = JSON.parse(localStorage.getItem('studyhub_time_this_week') || '{"minutes": 912}'); // default ~15h12m
+  let timeData: any = { minutes: 912 };
+  try {
+    const raw = localStorage.getItem('studyhub_time_this_week');
+    if (raw) timeData = JSON.parse(raw);
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.warn('Failed to parse studyhub_time_this_week', e);
+  }
   const timeHrs = Math.floor((timeData.minutes || 0) / 60);
   const timeMins = (timeData.minutes || 0) % 60;
 

@@ -5,6 +5,7 @@ import DashboardLayout from '@/components/layout/DashboardLayout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { safeParseArray } from '@/lib/utils';
 import { toast } from '@/hooks/use-toast';
 import { Plus, Trash } from 'lucide-react';
 import bgMesh from '@/assets/bg-mesh.png';
@@ -59,7 +60,7 @@ const CreateTest = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    const tests = JSON.parse(localStorage.getItem('studyhub_tests') || '[]');
+  const tests = safeParseArray(localStorage.getItem('studyhub_tests'));
     const newTest = {
       id: Date.now().toString(),
       title,

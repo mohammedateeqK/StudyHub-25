@@ -1,6 +1,7 @@
 import { useAuth } from '@/contexts/AuthContext';
 import { Navigate } from 'react-router-dom';
 import { useEffect } from 'react';
+import { safeParseArray } from '@/lib/utils';
 import StaffDashboard from '@/components/dashboard/StaffDashboard';
 import StudentDashboard from '@/components/dashboard/StudentDashboard';
 import DashboardLayout from '@/components/layout/DashboardLayout';
@@ -42,7 +43,7 @@ const Dashboard = () => {
 
     // Seed a result so average shows ~93%
     if (user) {
-      const existing = JSON.parse(localStorage.getItem('studyhub_results') || '[]');
+      const existing = safeParseArray(localStorage.getItem('studyhub_results'));
       existing.push({ id: 'r1', studentId: user.id, score: 93, testId: 't1', createdAt: nowIso });
       localStorage.setItem('studyhub_results', JSON.stringify(existing));
     }
