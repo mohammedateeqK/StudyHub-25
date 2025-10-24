@@ -17,7 +17,6 @@ const TakeTest = () => {
   const tests = JSON.parse(localStorage.getItem('studyhub_tests') || '[]');
   const [searchQuery, setSearchQuery] = useState('');
   const availableTestsRef = useRef<HTMLDivElement>(null);
-  const upcomingTestsRef = useRef<HTMLDivElement>(null);
 
   const scrollTests = (ref: React.RefObject<HTMLDivElement>, dir: 'left' | 'right') => {
     if (!ref.current) return;
@@ -26,7 +25,6 @@ const TakeTest = () => {
   };
 
   const filteredTests = tests.filter((t: any) => t.title.toLowerCase().includes(searchQuery.toLowerCase()));
-  const upcomingTests = filteredTests.slice(0, 5); // mock upcoming
 
   if (!isAuthenticated || user?.role !== 'student') {
     return <Navigate to="/dashboard" />;
@@ -131,55 +129,6 @@ const TakeTest = () => {
             )}
           </section>
 
-          {/* Upcoming Tests */}
-          <section className="relative">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-2xl font-bold">Upcoming Tests</h2>
-              <div className="flex gap-2">
-                <button onClick={() => scrollTests(upcomingTestsRef, 'left')} className="p-1 hover:bg-muted rounded">
-                  <ChevronLeft className="w-4 h-4" />
-                </button>
-                <button onClick={() => scrollTests(upcomingTestsRef, 'right')} className="p-1 hover:bg-muted rounded">
-                  <ChevronRight className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-            {upcomingTests.length > 0 ? (
-              <div className="flex gap-4 overflow-x-auto pb-2 scroll-smooth" ref={upcomingTestsRef}>
-                {upcomingTests.map((test: any) => (
-                  <div key={test.id} className="min-w-[280px] max-w-[280px]">
-                    <Card className="hover:shadow-lg transition-shadow h-64">
-                      <CardContent className="p-6 h-full flex flex-col">
-                        <div className="flex items-start gap-2 mb-4">
-                          <h3 className="font-semibold text-sm">{test.title}</h3>
-                          <Info className="w-3 h-3 text-muted-foreground" />
-                        </div>
-                        <div className="flex-1 flex items-center justify-center">
-                          <ClipboardList className="w-16 h-16 text-muted-foreground" />
-                        </div>
-                        <div className="grid grid-cols-3 gap-2 text-center">
-                          <div>
-                            <div className="text-lg font-bold">4</div>
-                            <div className="text-xs text-muted-foreground">Days</div>
-                          </div>
-                          <div>
-                            <div className="text-lg font-bold">5</div>
-                            <div className="text-xs text-muted-foreground">Hours</div>
-                          </div>
-                          <div>
-                            <div className="text-lg font-bold">30</div>
-                            <div className="text-xs text-muted-foreground">Minutes</div>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <Card><CardContent className="p-6 text-center text-muted-foreground">No upcoming tests</CardContent></Card>
-            )}
-            </section>
           </div>
         </DashboardLayout>
       </div>
