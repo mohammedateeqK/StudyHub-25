@@ -25,7 +25,6 @@ const StaffDashboard = () => {
   ];
 
   const recentNotes = notes.slice(-8).reverse();
-  const allTests = JSON.parse(localStorage.getItem('studyhub_tests') || '[]');
   const notesRowRef = useRef<HTMLDivElement>(null);
 
   const handleDeleteNote = (noteId: string) => {
@@ -155,30 +154,6 @@ const StaffDashboard = () => {
                 </button>
               </>
             )}
-          </section>
-
-          <section>
-            <h2 className="text-lg font-semibold mb-3">Upcoming Tests</h2>
-            <Card>
-              <CardContent className="p-0">
-                {allTests.length > 0 ? (
-                  <div className="divide-y">
-                    {allTests.slice(-5).reverse().map((t: any) => (
-                      <div key={t.id} className="p-4">
-                        <p className="font-medium">{t.title}</p>
-                        <p className="text-sm text-muted-foreground">Subject: {t.subject}</p>
-                        <div className="mt-2 flex items-center gap-2 text-xs text-muted-foreground">
-                          <Clock className="w-4 h-4" />
-                          <span>Created {new Date(t.createdAt).toLocaleDateString()}</span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="p-6 text-sm text-muted-foreground">No tests created yet</div>
-                )}
-              </CardContent>
-            </Card>
           </section>
         </div>
       </div>

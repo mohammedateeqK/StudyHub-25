@@ -20,8 +20,6 @@ const StudentDashboard = () => {
 
   const allNotes = JSON.parse(localStorage.getItem('studyhub_notes') || '[]');
   const recentNotes = allNotes.slice(-8).reverse();
-  const allTests = JSON.parse(localStorage.getItem('studyhub_tests') || '[]');
-  const upcomingTests = allTests.slice(-5).reverse();
   const timeData = JSON.parse(localStorage.getItem('studyhub_time_this_week') || '{"minutes": 912}'); // default ~15h12m
   const timeHrs = Math.floor((timeData.minutes || 0) / 60);
   const timeMins = (timeData.minutes || 0) % 60;
@@ -114,34 +112,8 @@ const StudentDashboard = () => {
         )}
       </section>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Upcoming Tests */}
-        <section>
-          <h2 className="text-xl font-semibold mb-3">Upcoming Tests</h2>
-          <Card>
-            <CardContent className="p-0">
-              {upcomingTests.length > 0 ? (
-                <div className="divide-y">
-                  {upcomingTests.map((t: any) => (
-                    <div key={t.id} className="p-4">
-                      <p className="font-medium">{t.title}</p>
-                      <p className="text-sm text-muted-foreground">Subject: {t.subject}</p>
-                      <div className="mt-2 flex items-center gap-2 text-xs text-muted-foreground">
-                        <Clock className="w-4 h-4" />
-                        <span>Created {new Date(t.createdAt).toLocaleDateString()}</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="p-6 text-sm text-muted-foreground">No upcoming tests</div>
-              )}
-            </CardContent>
-          </Card>
-        </section>
-
-        {/* Weekly performance */}
-        <section>
+      {/* Weekly performance */}
+      <section>
           <h2 className="text-xl font-semibold mb-3">Your weekly performance</h2>
           <div className="grid grid-cols-1 gap-6">
             <Card>
@@ -169,7 +141,6 @@ const StudentDashboard = () => {
             </Card>
           </div>
         </section>
-      </div>
     </div>
   );
 };
