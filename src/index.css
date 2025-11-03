@@ -8,13 +8,13 @@ All colors MUST be HSL.
 html { scroll-behavior: smooth; }
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --background: 145 60% 97%;
     --foreground: 220 15% 20%;
 
-    --card: 0 0% 100%;
+    --card: 145 50% 98%;
     --card-foreground: 220 15% 20%;
 
-    --popover: 0 0% 100%;
+    --popover: 145 50% 98%;
     --popover-foreground: 220 15% 20%;
 
     /* Green-centric palette */
@@ -46,8 +46,8 @@ html { scroll-behavior: smooth; }
                      radial-gradient(at 100% 0%, hsl(160 80% 40% / 0.12) 0px, transparent 50%),
                      radial-gradient(at 100% 100%, hsl(95 90% 55% / 0.1) 0px, transparent 50%),
                      radial-gradient(at 0% 100%, hsl(120 80% 45% / 0.08) 0px, transparent 50%);
-    --gradient-subtle: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(145 50% 98%) 100%);
-    --gradient-page: linear-gradient(180deg, hsl(145 60% 97%) 0%, hsl(0 0% 100%) 50%, hsl(160 60% 97%) 100%);
+    --gradient-subtle: linear-gradient(180deg, hsl(145 55% 96%) 0%, hsl(145 50% 98%) 100%);
+    --gradient-page: linear-gradient(180deg, hsl(145 60% 95%) 0%, hsl(145 55% 97%) 50%, hsl(160 60% 96%) 100%);
     
     --shadow-sm: 0 2px 8px hsl(150 15% 20% / 0.05);
     --shadow-md: 0 4px 16px hsl(150 15% 20% / 0.1);
