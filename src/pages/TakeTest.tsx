@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { toast } from '@/hooks/use-toast';
 import { ClipboardList, Search, Filter, ChevronLeft, ChevronRight, Info } from 'lucide-react';
 import { Input } from '@/components/ui/input';
-import bgMesh from '@/assets/bg-mesh.png';
+import bgMesh from '@/assets/bg-dashboard-green.png';
 
 const TakeTest = () => {
   const { user, isAuthenticated } = useAuth();
