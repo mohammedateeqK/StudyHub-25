@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/hooks/use-toast';
-import bgMesh from '@/assets/bg-dashboard-green.png';
+import bgMesh from '@/assets/bg-gradient.png';
 
 const Profile = () => {
   const { user, isAuthenticated } = useAuth();

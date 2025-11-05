@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/hooks/use-toast';
 import { Plus, Trash } from 'lucide-react';
-import bgMesh from '@/assets/bg-mesh.png';
+import bgMesh from '@/assets/bg-gradient.png';
 
 interface Question {
   id: string;

@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from '@/hooks/use-toast';
-import bgMesh from '@/assets/bg-mesh.png';
+import bgMesh from '@/assets/bg-gradient.png';
 
 const UploadNotes = () => {
   const { user, isAuthenticated } = useAuth();

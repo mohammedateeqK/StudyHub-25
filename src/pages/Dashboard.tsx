@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import StaffDashboard from '@/components/dashboard/StaffDashboard';
 import StudentDashboard from '@/components/dashboard/StudentDashboard';
 import DashboardLayout from '@/components/layout/DashboardLayout';
-import bgMesh from '@/assets/bg-dashboard-green.png';
+import bgMesh from '@/assets/bg-gradient.png';
 
 const Dashboard = () => {
   const { user, isAuthenticated } = useAuth();

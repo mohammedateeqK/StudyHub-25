@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom';
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Trophy, TrendingUp, TrendingDown } from 'lucide-react';
-import bgMesh from '@/assets/bg-dashboard-green.png';
+import bgMesh from '@/assets/bg-gradient.png';
 
 const Results = () => {
   const { user, isAuthenticated } = useAuth();

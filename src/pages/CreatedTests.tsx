@@ -17,7 +17,7 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import bgMesh from '@/assets/bg-mesh.png';
+import bgMesh from '@/assets/bg-gradient.png';
 
 const CreatedTests = () => {
   const { user, isAuthenticated } = useAuth();

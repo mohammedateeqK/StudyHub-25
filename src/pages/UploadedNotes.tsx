@@ -16,7 +16,7 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
-import bgMesh from '@/assets/bg-mesh.png';
+import bgMesh from '@/assets/bg-gradient.png';
 
 const UploadedNotes = () => {
   const { user, isAuthenticated } = useAuth();
