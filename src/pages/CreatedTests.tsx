@@ -1,4 +1,5 @@
 import { useAuth } from '@/contexts/AuthContext';
+import { useSettings } from '@/contexts/SettingsContext';
 import { Navigate } from 'react-router-dom';
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -17,10 +18,11 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import bgMesh from '@/assets/bg-gradient.png';
+import bgGradient from '@/assets/bg-gradient.png';
 
 const CreatedTests = () => {
   const { user, isAuthenticated } = useAuth();
+  const { opacity, intensity } = useSettings();
   const allTests = JSON.parse(localStorage.getItem('studyhub_tests') || '[]');
   const [myTests, setMyTests] = useState<any[]>(
     allTests.filter((test: any) => test.createdBy === user?.id)
@@ -39,8 +41,14 @@ const CreatedTests = () => {
   return (
     <div className="min-h-screen bg-gradient-page relative">
       <div 
-        className="fixed inset-0 opacity-30 pointer-events-none z-0"
-        style={{ backgroundImage: `url(${bgMesh})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+        className="fixed inset-0 pointer-events-none z-0 transition-all duration-300"
+        style={{ 
+          backgroundImage: `url(${bgGradient})`, 
+          backgroundSize: 'cover', 
+          backgroundPosition: 'center',
+          opacity: opacity,
+          filter: `brightness(${intensity})`
+        }}
       />
       <div className="relative z-10">
         <DashboardLayout>

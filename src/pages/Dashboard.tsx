@@ -1,13 +1,15 @@
 import { useAuth } from '@/contexts/AuthContext';
+import { useSettings } from '@/contexts/SettingsContext';
 import { Navigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import StaffDashboard from '@/components/dashboard/StaffDashboard';
 import StudentDashboard from '@/components/dashboard/StudentDashboard';
 import DashboardLayout from '@/components/layout/DashboardLayout';
-import bgMesh from '@/assets/bg-gradient.png';
+import bgGradient from '@/assets/bg-gradient.png';
 
 const Dashboard = () => {
   const { user, isAuthenticated } = useAuth();
+  const { opacity, intensity } = useSettings();
 
   useEffect(() => {
     // Seed demo data to match the provided design if storage is empty
@@ -57,8 +59,14 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen bg-gradient-page relative">
       <div 
-        className="fixed inset-0 opacity-30 pointer-events-none z-0"
-        style={{ backgroundImage: `url(${bgMesh})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+        className="fixed inset-0 pointer-events-none z-0 transition-all duration-300"
+        style={{ 
+          backgroundImage: `url(${bgGradient})`, 
+          backgroundSize: 'cover', 
+          backgroundPosition: 'center',
+          opacity: opacity,
+          filter: `brightness(${intensity})`
+        }}
       />
       <div className="relative z-10">
         <DashboardLayout>

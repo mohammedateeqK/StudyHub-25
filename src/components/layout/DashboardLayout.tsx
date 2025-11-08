@@ -1,11 +1,13 @@
 import { useAuth } from '@/contexts/AuthContext';
+import { useSettings } from '@/contexts/SettingsContext';
 import { Button } from '@/components/ui/button';
-import { BookOpen, Home, FileText, ClipboardList, BarChart, User, LogOut, ArrowLeft } from 'lucide-react';
+import { BookOpen, Home, FileText, ClipboardList, BarChart, User, LogOut, ArrowLeft, Settings as SettingsIcon } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import bgDashboard from '@/assets/bg-dashboard.png';
+import bgGradient from '@/assets/bg-gradient.png';
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const { user, logout } = useAuth();
+  const { opacity, intensity } = useSettings();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -17,6 +19,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
     { path: '/tests/create', label: 'Create Test', icon: ClipboardList },
     { path: '/results', label: 'View Results', icon: BarChart },
     { path: '/profile', label: 'Profile', icon: User },
+    { path: '/settings', label: 'Settings', icon: SettingsIcon },
   ];
 
   const studentLinks = [
@@ -25,6 +28,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
     { path: '/tests', label: 'Take Test', icon: ClipboardList },
     { path: '/results', label: 'My Results', icon: BarChart },
     { path: '/profile', label: 'Profile', icon: User },
+    { path: '/settings', label: 'Settings', icon: SettingsIcon },
   ];
 
   const links = user?.role === 'staff' ? staffLinks : studentLinks;
@@ -32,8 +36,14 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="min-h-screen bg-gradient-page relative">
       <div 
-        className="fixed inset-0 opacity-20 pointer-events-none z-0"
-        style={{ backgroundImage: `url(${bgDashboard})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+        className="fixed inset-0 pointer-events-none z-0 transition-all duration-300"
+        style={{ 
+          backgroundImage: `url(${bgGradient})`, 
+          backgroundSize: 'cover', 
+          backgroundPosition: 'center',
+          opacity: opacity,
+          filter: `brightness(${intensity})`
+        }}
       />
       <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border">
         <div className="container mx-auto px-4">

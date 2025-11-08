@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
+import { useSettings } from '@/contexts/SettingsContext';
 import { Navigate, useNavigate } from 'react-router-dom';
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -7,10 +8,11 @@ import { Button } from '@/components/ui/button';
 import { toast } from '@/hooks/use-toast';
 import { ClipboardList, Search, Filter, ChevronLeft, ChevronRight, Info } from 'lucide-react';
 import { Input } from '@/components/ui/input';
-import bgMesh from '@/assets/bg-gradient.png';
+import bgGradient from '@/assets/bg-gradient.png';
 
 const TakeTest = () => {
   const { user, isAuthenticated } = useAuth();
+  const { opacity, intensity } = useSettings();
   const navigate = useNavigate();
   const [selectedTest, setSelectedTest] = useState<any>(null);
   const [answers, setAnswers] = useState<{ [key: string]: number }>({});
@@ -65,8 +67,14 @@ const TakeTest = () => {
     return (
       <div className="min-h-screen bg-gradient-page relative">
         <div 
-          className="fixed inset-0 opacity-30 pointer-events-none z-0"
-          style={{ backgroundImage: `url(${bgMesh})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+          className="fixed inset-0 pointer-events-none z-0 transition-all duration-300"
+          style={{ 
+            backgroundImage: `url(${bgGradient})`, 
+            backgroundSize: 'cover', 
+            backgroundPosition: 'center',
+            opacity: opacity,
+            filter: `brightness(${intensity})`
+          }}
         />
         <div className="relative z-10">
           <DashboardLayout>
@@ -139,8 +147,14 @@ const TakeTest = () => {
   return (
     <div className="min-h-screen bg-gradient-page relative">
       <div 
-        className="fixed inset-0 opacity-30 pointer-events-none z-0"
-        style={{ backgroundImage: `url(${bgMesh})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+        className="fixed inset-0 pointer-events-none z-0 transition-all duration-300"
+        style={{ 
+          backgroundImage: `url(${bgGradient})`, 
+          backgroundSize: 'cover', 
+          backgroundPosition: 'center',
+          opacity: opacity,
+          filter: `brightness(${intensity})`
+        }}
       />
       <div className="relative z-10">
         <DashboardLayout>
