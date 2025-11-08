@@ -8,11 +8,11 @@ import { Button } from '@/components/ui/button';
 import { toast } from '@/hooks/use-toast';
 import { ClipboardList, Search, Filter, ChevronLeft, ChevronRight, Info } from 'lucide-react';
 import { Input } from '@/components/ui/input';
-import bgGradient from '@/assets/bg-gradient.png';
+import { getBackgroundImage } from '@/lib/backgroundHelper';
 
 const TakeTest = () => {
   const { user, isAuthenticated } = useAuth();
-  const { opacity, intensity } = useSettings();
+  const { opacity, intensity, backgroundImage } = useSettings();
   const navigate = useNavigate();
   const [selectedTest, setSelectedTest] = useState<any>(null);
   const [answers, setAnswers] = useState<{ [key: string]: number }>({});
@@ -69,7 +69,7 @@ const TakeTest = () => {
         <div 
           className="fixed inset-0 pointer-events-none z-0 transition-all duration-300"
           style={{ 
-            backgroundImage: `url(${bgGradient})`, 
+            backgroundImage: `url(${getBackgroundImage(backgroundImage)})`, 
             backgroundSize: 'cover', 
             backgroundPosition: 'center',
             opacity: opacity,
@@ -149,7 +149,7 @@ const TakeTest = () => {
       <div 
         className="fixed inset-0 pointer-events-none z-0 transition-all duration-300"
         style={{ 
-          backgroundImage: `url(${bgGradient})`, 
+          backgroundImage: `url(${getBackgroundImage(backgroundImage)})`, 
           backgroundSize: 'cover', 
           backgroundPosition: 'center',
           opacity: opacity,

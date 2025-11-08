@@ -17,11 +17,11 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
-import bgGradient from '@/assets/bg-gradient.png';
+import { getBackgroundImage } from '@/lib/backgroundHelper';
 
 const UploadedNotes = () => {
   const { user, isAuthenticated } = useAuth();
-  const { opacity, intensity } = useSettings();
+  const { opacity, intensity, backgroundImage } = useSettings();
   const allNotes = JSON.parse(localStorage.getItem('studyhub_notes') || '[]');
   const [myNotes, setMyNotes] = useState<any[]>(
     allNotes.filter((note: any) => note.uploadedBy === user?.id)
@@ -42,7 +42,7 @@ const UploadedNotes = () => {
       <div 
         className="fixed inset-0 pointer-events-none z-0 transition-all duration-300"
         style={{ 
-          backgroundImage: `url(${bgGradient})`, 
+          backgroundImage: `url(${getBackgroundImage(backgroundImage)})`, 
           backgroundSize: 'cover', 
           backgroundPosition: 'center',
           opacity: opacity,

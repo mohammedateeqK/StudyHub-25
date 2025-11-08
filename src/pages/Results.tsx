@@ -4,11 +4,11 @@ import { Navigate } from 'react-router-dom';
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Trophy, TrendingUp, TrendingDown } from 'lucide-react';
-import bgGradient from '@/assets/bg-gradient.png';
+import { getBackgroundImage } from '@/lib/backgroundHelper';
 
 const Results = () => {
   const { user, isAuthenticated } = useAuth();
-  const { opacity, intensity } = useSettings();
+  const { opacity, intensity, backgroundImage } = useSettings();
   
   if (!isAuthenticated) {
     return <Navigate to="/login" />;
@@ -40,7 +40,7 @@ const Results = () => {
       <div 
         className="fixed inset-0 pointer-events-none z-0 transition-all duration-300"
         style={{ 
-          backgroundImage: `url(${bgGradient})`, 
+          backgroundImage: `url(${getBackgroundImage(backgroundImage)})`, 
           backgroundSize: 'cover', 
           backgroundPosition: 'center',
           opacity: opacity,

@@ -18,11 +18,11 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import bgGradient from '@/assets/bg-gradient.png';
+import { getBackgroundImage } from '@/lib/backgroundHelper';
 
 const CreatedTests = () => {
   const { user, isAuthenticated } = useAuth();
-  const { opacity, intensity } = useSettings();
+  const { opacity, intensity, backgroundImage } = useSettings();
   const allTests = JSON.parse(localStorage.getItem('studyhub_tests') || '[]');
   const [myTests, setMyTests] = useState<any[]>(
     allTests.filter((test: any) => test.createdBy === user?.id)
@@ -43,7 +43,7 @@ const CreatedTests = () => {
       <div 
         className="fixed inset-0 pointer-events-none z-0 transition-all duration-300"
         style={{ 
-          backgroundImage: `url(${bgGradient})`, 
+          backgroundImage: `url(${getBackgroundImage(backgroundImage)})`, 
           backgroundSize: 'cover', 
           backgroundPosition: 'center',
           opacity: opacity,

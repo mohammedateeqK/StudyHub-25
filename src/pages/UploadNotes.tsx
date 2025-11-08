@@ -8,11 +8,11 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from '@/hooks/use-toast';
-import bgGradient from '@/assets/bg-gradient.png';
+import { getBackgroundImage } from '@/lib/backgroundHelper';
 
 const UploadNotes = () => {
   const { user, isAuthenticated } = useAuth();
-  const { opacity, intensity } = useSettings();
+  const { opacity, intensity, backgroundImage } = useSettings();
   const [title, setTitle] = useState('');
   const [subject, setSubject] = useState('');
   const [content, setContent] = useState('');
@@ -79,7 +79,7 @@ const UploadNotes = () => {
       <div 
         className="fixed inset-0 pointer-events-none z-0 transition-all duration-300"
         style={{ 
-          backgroundImage: `url(${bgGradient})`, 
+          backgroundImage: `url(${getBackgroundImage(backgroundImage)})`, 
           backgroundSize: 'cover', 
           backgroundPosition: 'center',
           opacity: opacity,

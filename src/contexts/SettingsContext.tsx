@@ -1,10 +1,12 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, useContext, useState, ReactNode } from 'react';
 
 interface SettingsContextType {
   opacity: number;
   intensity: number;
+  backgroundImage: string;
   setOpacity: (value: number) => void;
   setIntensity: (value: number) => void;
+  setBackgroundImage: (value: string) => void;
 }
 
 const SettingsContext = createContext<SettingsContextType | undefined>(undefined);
@@ -20,6 +22,11 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
     return saved ? parseFloat(saved) : 1;
   });
 
+  const [backgroundImage, setBackgroundImageState] = useState(() => {
+    const saved = localStorage.getItem('bg_image');
+    return saved || 'default';
+  });
+
   const setOpacity = (value: number) => {
     setOpacityState(value);
     localStorage.setItem('bg_opacity', value.toString());
@@ -30,8 +37,13 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
     localStorage.setItem('bg_intensity', value.toString());
   };
 
+  const setBackgroundImage = (value: string) => {
+    setBackgroundImageState(value);
+    localStorage.setItem('bg_image', value);
+  };
+
   return (
-    <SettingsContext.Provider value={{ opacity, intensity, setOpacity, setIntensity }}>
+    <SettingsContext.Provider value={{ opacity, intensity, backgroundImage, setOpacity, setIntensity, setBackgroundImage }}>
       {children}
     </SettingsContext.Provider>
   );

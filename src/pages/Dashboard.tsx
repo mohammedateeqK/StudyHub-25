@@ -5,11 +5,11 @@ import { useEffect } from 'react';
 import StaffDashboard from '@/components/dashboard/StaffDashboard';
 import StudentDashboard from '@/components/dashboard/StudentDashboard';
 import DashboardLayout from '@/components/layout/DashboardLayout';
-import bgGradient from '@/assets/bg-gradient.png';
+import { getBackgroundImage } from '@/lib/backgroundHelper';
 
 const Dashboard = () => {
   const { user, isAuthenticated } = useAuth();
-  const { opacity, intensity } = useSettings();
+  const { opacity, intensity, backgroundImage } = useSettings();
 
   useEffect(() => {
     // Seed demo data to match the provided design if storage is empty
@@ -61,7 +61,7 @@ const Dashboard = () => {
       <div 
         className="fixed inset-0 pointer-events-none z-0 transition-all duration-300"
         style={{ 
-          backgroundImage: `url(${bgGradient})`, 
+          backgroundImage: `url(${getBackgroundImage(backgroundImage)})`, 
           backgroundSize: 'cover', 
           backgroundPosition: 'center',
           opacity: opacity,
