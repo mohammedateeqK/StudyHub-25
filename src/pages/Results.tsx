@@ -3,21 +3,53 @@ import { useSettings } from '@/contexts/SettingsContext';
 import { Navigate } from 'react-router-dom';
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Trophy, TrendingUp, TrendingDown } from 'lucide-react';
+import { Trophy, TrendingUp, TrendingDown, RotateCcw } from 'lucide-react';
 import { getBackgroundImage } from '@/lib/backgroundHelper';
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { useToast } from '@/hooks/use-toast';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 
 const Results = () => {
   const { user, isAuthenticated } = useAuth();
   const { opacity, intensity, backgroundImage } = useSettings();
+  const { toast } = useToast();
   
   if (!isAuthenticated) {
     return <Navigate to="/login" />;
   }
 
   const allResults = JSON.parse(localStorage.getItem('studyhub_results') || '[]');
-  const userResults = user?.role === 'student' 
-    ? allResults.filter((r: any) => r.studentId === user.id)
-    : allResults;
+  const [userResults, setUserResults] = useState<any[]>(
+    user?.role === 'student' 
+      ? allResults.filter((r: any) => r.studentId === user.id)
+      : allResults
+  );
+
+  const handleResetAll = () => {
+    if (user?.role === 'student') {
+      const updated = allResults.filter((r: any) => r.studentId !== user.id);
+      setUserResults([]);
+      localStorage.setItem('studyhub_results', JSON.stringify(updated));
+    } else {
+      setUserResults([]);
+      localStorage.setItem('studyhub_results', JSON.stringify([]));
+    }
+    toast({
+      title: "All results deleted",
+      description: "All test results have been removed.",
+    });
+  };
 
   const averageScore = userResults.length > 0
     ? (userResults.reduce((acc: number, r: any) => acc + r.score, 0) / userResults.length).toFixed(1)
@@ -50,15 +82,41 @@ const Results = () => {
       <div className="relative z-10">
         <DashboardLayout>
           <div className="space-y-8">
-        <div>
-          <h1 className="text-3xl font-bold mb-2">
-            {user?.role === 'staff' ? 'Student Results' : 'My Results'}
-          </h1>
-          <p className="text-muted-foreground">
-            {user?.role === 'staff' 
-              ? 'View and track student performance' 
-              : 'Track your test performance and progress'}
-          </p>
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold mb-2">
+              {user?.role === 'staff' ? 'Student Results' : 'My Results'}
+            </h1>
+            <p className="text-muted-foreground">
+              {user?.role === 'staff' 
+                ? 'View and track student performance' 
+                : 'Track your test performance and progress'}
+            </p>
+          </div>
+          {userResults.length > 0 && (
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button variant="outline">
+                  <RotateCcw className="w-4 h-4 mr-2" />
+                  Reset All
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Delete All Results</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Are you sure you want to delete all {user?.role === 'staff' ? 'student' : 'your'} test results? This action cannot be undone.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction onClick={handleResetAll}>
+                    Delete All
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          )}
         </div>
 
         {userResults.length > 0 && (
