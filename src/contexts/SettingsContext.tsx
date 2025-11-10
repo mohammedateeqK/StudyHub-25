@@ -7,6 +7,7 @@ interface SettingsContextType {
   setOpacity: (value: number) => void;
   setIntensity: (value: number) => void;
   setBackgroundImage: (value: string) => void;
+  resetToDefaults: () => void;
 }
 
 const SettingsContext = createContext<SettingsContextType | undefined>(undefined);
@@ -42,8 +43,14 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
     localStorage.setItem('bg_image', value);
   };
 
+  const resetToDefaults = () => {
+    setOpacity(0.3);
+    setIntensity(1);
+    setBackgroundImage('default');
+  };
+
   return (
-    <SettingsContext.Provider value={{ opacity, intensity, backgroundImage, setOpacity, setIntensity, setBackgroundImage }}>
+    <SettingsContext.Provider value={{ opacity, intensity, backgroundImage, setOpacity, setIntensity, setBackgroundImage, resetToDefaults }}>
       {children}
     </SettingsContext.Provider>
   );

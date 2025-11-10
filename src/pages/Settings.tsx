@@ -8,7 +8,7 @@ import { Slider } from '@/components/ui/slider';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Upload, Check } from 'lucide-react';
+import { Upload, Check, RotateCcw } from 'lucide-react';
 import { getBackgroundImage } from '@/lib/backgroundHelper';
 import bgGradient from '@/assets/bg-gradient.png';
 import bgDashboard from '@/assets/bg-dashboard.png';
@@ -19,7 +19,7 @@ import bgPattern from '@/assets/bg-pattern-1.png';
 
 const Settings = () => {
   const { isAuthenticated } = useAuth();
-  const { opacity, intensity, backgroundImage, setOpacity, setIntensity, setBackgroundImage } = useSettings();
+  const { opacity, intensity, backgroundImage, setOpacity, setIntensity, setBackgroundImage, resetToDefaults } = useSettings();
   const [customImage, setCustomImage] = useState<string | null>(null);
 
   if (!isAuthenticated) {
@@ -63,9 +63,15 @@ const Settings = () => {
       <div className="relative z-10">
         <DashboardLayout>
           <div className="max-w-4xl space-y-8">
-            <div>
-              <h1 className="text-3xl font-bold mb-2">Background Settings</h1>
-              <p className="text-muted-foreground">Customize your background appearance</p>
+            <div className="flex items-center justify-between">
+              <div>
+                <h1 className="text-3xl font-bold mb-2">Background Settings</h1>
+                <p className="text-muted-foreground">Customize your background appearance</p>
+              </div>
+              <Button variant="outline" onClick={resetToDefaults}>
+                <RotateCcw className="w-4 h-4 mr-2" />
+                Reset to Defaults
+              </Button>
             </div>
 
             <Card>
