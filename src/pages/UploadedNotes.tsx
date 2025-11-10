@@ -3,8 +3,9 @@ import { useSettings } from '@/contexts/SettingsContext';
 import { Navigate } from 'react-router-dom';
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { BookOpen, ThumbsUp, MessageSquare, Eye, Trash2 } from 'lucide-react';
+import { BookOpen, ThumbsUp, MessageSquare, Eye, Trash2, RotateCcw } from 'lucide-react';
 import { useState } from 'react';
+import { useToast } from '@/hooks/use-toast';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -22,6 +23,7 @@ import { getBackgroundImage } from '@/lib/backgroundHelper';
 const UploadedNotes = () => {
   const { user, isAuthenticated } = useAuth();
   const { opacity, intensity, backgroundImage } = useSettings();
+  const { toast } = useToast();
   const allNotes = JSON.parse(localStorage.getItem('studyhub_notes') || '[]');
   const [myNotes, setMyNotes] = useState<any[]>(
     allNotes.filter((note: any) => note.uploadedBy === user?.id)
@@ -31,6 +33,16 @@ const UploadedNotes = () => {
     const updated = allNotes.filter((n: any) => n.id !== noteId);
     setMyNotes(updated.filter((n: any) => n.uploadedBy === user?.id));
     localStorage.setItem('studyhub_notes', JSON.stringify(updated));
+  };
+
+  const handleResetAll = () => {
+    const updated = allNotes.filter((n: any) => n.uploadedBy !== user?.id);
+    setMyNotes([]);
+    localStorage.setItem('studyhub_notes', JSON.stringify(updated));
+    toast({
+      title: "All notes deleted",
+      description: "All your uploaded notes have been removed.",
+    });
   };
 
   if (!isAuthenticated || user?.role !== 'staff') {
@@ -52,9 +64,35 @@ const UploadedNotes = () => {
       <div className="relative z-10">
         <DashboardLayout>
           <div className="space-y-8">
-        <div>
-          <h1 className="text-3xl font-bold mb-2">My Uploaded Notes</h1>
-          <p className="text-muted-foreground">View and manage all notes you've uploaded</p>
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold mb-2">My Uploaded Notes</h1>
+            <p className="text-muted-foreground">View and manage all notes you've uploaded</p>
+          </div>
+          {myNotes.length > 0 && (
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button variant="outline">
+                  <RotateCcw className="w-4 h-4 mr-2" />
+                  Reset All
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Delete All Notes</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Are you sure you want to delete all your uploaded notes? This action cannot be undone.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction onClick={handleResetAll}>
+                    Delete All
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          )}
         </div>
 
         {myNotes.length > 0 ? (

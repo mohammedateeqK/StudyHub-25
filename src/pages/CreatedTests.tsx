@@ -3,8 +3,9 @@ import { useSettings } from '@/contexts/SettingsContext';
 import { Navigate } from 'react-router-dom';
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { ClipboardList, Trash2, Calendar } from 'lucide-react';
+import { ClipboardList, Trash2, Calendar, RotateCcw } from 'lucide-react';
 import { useState } from 'react';
+import { useToast } from '@/hooks/use-toast';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -23,6 +24,7 @@ import { getBackgroundImage } from '@/lib/backgroundHelper';
 const CreatedTests = () => {
   const { user, isAuthenticated } = useAuth();
   const { opacity, intensity, backgroundImage } = useSettings();
+  const { toast } = useToast();
   const allTests = JSON.parse(localStorage.getItem('studyhub_tests') || '[]');
   const [myTests, setMyTests] = useState<any[]>(
     allTests.filter((test: any) => test.createdBy === user?.id)
@@ -32,6 +34,16 @@ const CreatedTests = () => {
     const updated = allTests.filter((t: any) => t.id !== testId);
     setMyTests(updated.filter((t: any) => t.createdBy === user?.id));
     localStorage.setItem('studyhub_tests', JSON.stringify(updated));
+  };
+
+  const handleResetAll = () => {
+    const updated = allTests.filter((t: any) => t.createdBy !== user?.id);
+    setMyTests([]);
+    localStorage.setItem('studyhub_tests', JSON.stringify(updated));
+    toast({
+      title: "All tests deleted",
+      description: "All your created tests have been removed.",
+    });
   };
 
   if (!isAuthenticated || user?.role !== 'staff') {
@@ -53,9 +65,35 @@ const CreatedTests = () => {
       <div className="relative z-10">
         <DashboardLayout>
           <div className="space-y-8">
-        <div>
-          <h1 className="text-3xl font-bold mb-2">My Created Tests</h1>
-          <p className="text-muted-foreground">View and manage all tests you've created</p>
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold mb-2">My Created Tests</h1>
+            <p className="text-muted-foreground">View and manage all tests you've created</p>
+          </div>
+          {myTests.length > 0 && (
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button variant="outline">
+                  <RotateCcw className="w-4 h-4 mr-2" />
+                  Reset All
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Delete All Tests</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Are you sure you want to delete all your created tests? This action cannot be undone.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction onClick={handleResetAll}>
+                    Delete All
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          )}
         </div>
 
         {myTests.length > 0 ? (
