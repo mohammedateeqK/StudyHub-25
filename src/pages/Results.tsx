@@ -5,9 +5,10 @@ import DashboardLayout from '@/components/layout/DashboardLayout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Trophy, TrendingUp, TrendingDown, RotateCcw } from 'lucide-react';
 import { getBackgroundImage } from '@/lib/backgroundHelper';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -19,36 +20,90 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 
 const Results = () => {
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, loading } = useAuth();
   const { opacity, intensity, backgroundImage } = useSettings();
   const { toast } = useToast();
+  const [userResults, setUserResults] = useState<any[]>([]);
+  const [loadingResults, setLoadingResults] = useState(true);
   
-  if (!isAuthenticated) {
+  if (!isAuthenticated && !loading) {
     return <Navigate to="/login" />;
   }
 
-  const allResults = JSON.parse(localStorage.getItem('studyhub_results') || '[]');
-  const [userResults, setUserResults] = useState<any[]>(
-    user?.role === 'student' 
-      ? allResults.filter((r: any) => r.studentId === user.id)
-      : allResults
-  );
-
-  const handleResetAll = () => {
-    if (user?.role === 'student') {
-      const updated = allResults.filter((r: any) => r.studentId !== user.id);
-      setUserResults([]);
-      localStorage.setItem('studyhub_results', JSON.stringify(updated));
-    } else {
-      setUserResults([]);
-      localStorage.setItem('studyhub_results', JSON.stringify([]));
+  useEffect(() => {
+    if (user) {
+      fetchResults();
     }
-    toast({
-      title: "All results deleted",
-      description: "All test results have been removed.",
-    });
+  }, [user]);
+
+  const fetchResults = async () => {
+    try {
+      setLoadingResults(true);
+      
+      let query = (supabase as any)
+        .from('results')
+        .select(`
+          *,
+          student:profiles!results_student_id_fkey(name, email)
+        `)
+        .order('completed_at', { ascending: false });
+
+      // Students only see their own results
+      if (user?.role === 'student') {
+        query = query.eq('student_id', user.id);
+      }
+
+      const { data, error } = await query;
+
+      if (error) throw error;
+      setUserResults(data || []);
+    } catch (error: any) {
+      toast({
+        title: "Error loading results",
+        description: error.message,
+        variant: "destructive",
+      });
+    } finally {
+      setLoadingResults(false);
+    }
+  };
+
+  const handleResetAll = async () => {
+    try {
+      let query = (supabase as any).from('results').delete();
+
+      if (user?.role === 'student') {
+        query = query.eq('student_id', user.id);
+      } else {
+        query = query.neq('id', '00000000-0000-0000-0000-000000000000'); // Delete all
+      }
+
+      const { error } = await query;
+
+      if (error) throw error;
+
+      setUserResults([]);
+      toast({
+        title: "All results deleted",
+        description: "All test results have been removed.",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Error deleting results",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
   };
 
   const averageScore = userResults.length > 0
@@ -136,21 +191,71 @@ const Results = () => {
           </Card>
         )}
 
-        {userResults.length > 0 ? (
-          <div className="space-y-4">
-            {userResults.map((result: any) => {
-              const users = JSON.parse(localStorage.getItem('studyhub_users') || '[]');
-              const student = users.find((u: any) => u.id === result.studentId);
-              
-              return (
+        {loadingResults ? (
+          <Card>
+            <CardContent className="flex flex-col items-center justify-center py-12">
+              <p className="text-muted-foreground">Loading results...</p>
+            </CardContent>
+          </Card>
+        ) : userResults.length > 0 ? (
+          user?.role === 'admin' ? (
+            <Card>
+              <CardHeader>
+                <CardTitle>All Student Results</CardTitle>
+                <CardDescription>Detailed view of all test submissions</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Student</TableHead>
+                      <TableHead>Test</TableHead>
+                      <TableHead>Score</TableHead>
+                      <TableHead>Correct</TableHead>
+                      <TableHead>Date</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {userResults.map((result: any) => (
+                      <TableRow key={result.id}>
+                        <TableCell className="font-medium">
+                          {result.student?.name || 'Unknown'}
+                          <div className="text-sm text-muted-foreground">
+                            {result.student?.email}
+                          </div>
+                        </TableCell>
+                        <TableCell>{result.test_title}</TableCell>
+                        <TableCell>
+                          <div className="flex items-center gap-2">
+                            {getPerformanceIcon(result.score)}
+                            <span className={`font-bold ${getScoreColor(result.score)}`}>
+                              {result.score.toFixed(1)}%
+                            </span>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          {result.correct_answers} / {result.total_questions}
+                        </TableCell>
+                        <TableCell>
+                          {new Date(result.completed_at).toLocaleDateString()}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </CardContent>
+            </Card>
+          ) : (
+            <div className="space-y-4">
+              {userResults.map((result: any) => (
                 <Card key={result.id}>
                   <CardHeader>
                     <div className="flex items-start justify-between">
                       <div>
-                        <CardTitle>{result.testTitle}</CardTitle>
+                        <CardTitle>{result.test_title}</CardTitle>
                         {user?.role === 'staff' && (
                           <CardDescription className="mt-1">
-                            Student: {student?.name || 'Unknown'}
+                            Student: {result.student?.name || 'Unknown'}
                           </CardDescription>
                         )}
                       </div>
@@ -165,17 +270,17 @@ const Results = () => {
                   <CardContent>
                     <div className="flex items-center justify-between text-sm">
                       <span className="text-muted-foreground">
-                        {result.correctAnswers} / {result.totalQuestions} correct
+                        {result.correct_answers} / {result.total_questions} correct
                       </span>
                       <span className="text-muted-foreground">
-                        {new Date(result.completedAt).toLocaleDateString()}
+                        {new Date(result.completed_at).toLocaleDateString()}
                       </span>
                     </div>
                   </CardContent>
                 </Card>
-              );
-            })}
-          </div>
+              ))}
+            </div>
+          )
         ) : (
           <Card>
             <CardContent className="flex flex-col items-center justify-center py-12">
