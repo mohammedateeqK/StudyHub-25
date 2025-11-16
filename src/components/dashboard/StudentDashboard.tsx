@@ -55,15 +55,17 @@ const StudentDashboard = () => {
         {stats.map((stat) => {
           const Icon = stat.icon;
           return (
-            <Card key={stat.label}>
-              <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <Card key={stat.label} className="shadow-card hover:shadow-lg transition-all duration-300 border-border/50 bg-gradient-to-br from-card to-card/95">
+              <CardHeader className="flex flex-row items-center justify-between pb-3 space-y-0">
                 <CardTitle className="text-sm font-medium text-muted-foreground">
                   {stat.label}
                 </CardTitle>
-                <Icon className={`w-5 h-5 ${stat.color}`} />
+                <div className={`p-2.5 rounded-lg bg-gradient-to-br ${stat.color === 'text-primary' ? 'from-primary/10 to-primary/5' : stat.color === 'text-secondary' ? 'from-secondary/10 to-secondary/5' : 'from-accent/10 to-accent/5'}`}>
+                  <Icon className={`w-5 h-5 ${stat.color}`} />
+                </div>
               </CardHeader>
               <CardContent>
-                <div className="text-3xl font-bold">{stat.value}</div>
+                <div className="text-4xl font-bold tracking-tight">{stat.value}</div>
               </CardContent>
             </Card>
           );
@@ -72,13 +74,13 @@ const StudentDashboard = () => {
 
       {/* Recently Uploaded Notes */}
       <section className="relative">
-        <h2 className="text-xl font-semibold mb-3">Recently Uploaded Notes</h2>
+        <h2 className="text-xl font-semibold mb-4">Recently Uploaded Notes</h2>
         {recentNotes.length > 0 ? (
           <div className="flex gap-4 overflow-x-auto pb-2 scroll-smooth" ref={notesRowRef}>
             {recentNotes.map((note: any) => (
-              <div key={note.id} className="min-w-[240px] max-w-[240px]">
-                <Card className="hover:shadow-md transition-shadow">
-                  <CardContent className="p-4 space-y-2">
+              <div key={note.id} className="min-w-[260px] max-w-[260px]">
+                <Card className="shadow-card hover:shadow-lg transition-all duration-300 border-border/50 h-full">
+                  <CardContent className="p-5 space-y-3">
                     <div className="flex items-center gap-2 text-xs text-muted-foreground">
                       <FileText className="w-4 h-4 text-primary" />
                       <span>{note.file?.type?.includes('pdf') ? 'PDF' : (note.file?.type || 'Note')}</span>
@@ -114,28 +116,28 @@ const StudentDashboard = () => {
 
       {/* Weekly performance */}
       <section>
-          <h2 className="text-xl font-semibold mb-3">Your weekly performance</h2>
+          <h2 className="text-xl font-semibold mb-4">Your Weekly Performance</h2>
           <div className="grid grid-cols-1 gap-6">
-            <Card>
+            <Card className="shadow-card hover:shadow-lg transition-all duration-300 border-border/50 bg-gradient-to-br from-card to-card/95">
               <CardContent className="p-6 flex items-center gap-6">
-                <div className="shrink-0">
+                <div className="shrink-0 p-3 rounded-xl bg-gradient-to-br from-primary/10 to-primary/5">
                   <CircularProgress value={100} size={88} stroke={8} />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Total time spent this week</p>
-                  <p className="text-2xl font-bold">{timeHrs} hrs, {timeMins} mins</p>
+                  <p className="text-sm text-muted-foreground font-medium">Total time spent this week</p>
+                  <p className="text-3xl font-bold tracking-tight mt-1">{timeHrs} hrs, {timeMins} mins</p>
                 </div>
               </CardContent>
             </Card>
-            <Card>
+            <Card className="shadow-card hover:shadow-lg transition-all duration-300 border-border/50 bg-gradient-to-br from-card to-card/95">
               <CardContent className="p-6 flex items-center gap-6">
-                <div className="shrink-0 relative">
+                <div className="shrink-0 relative p-3 rounded-xl bg-gradient-to-br from-accent/10 to-accent/5">
                   <CircularProgress value={Number(averageScore)} size={88} stroke={8} color={'hsl(var(--accent))'} trackColor={'hsl(var(--muted))'} />
                   <Lightbulb className="w-5 h-5 text-accent absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Average test percentage</p>
-                  <p className="text-2xl font-bold">{averageScore}%</p>
+                  <p className="text-sm text-muted-foreground font-medium">Average test percentage</p>
+                  <p className="text-3xl font-bold tracking-tight mt-1">{averageScore}%</p>
                 </div>
               </CardContent>
             </Card>

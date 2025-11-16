@@ -14,16 +14,156 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      notes: {
+        Row: {
+          created_at: string | null
+          file_url: string
+          id: string
+          subject: string
+          title: string
+          uploaded_by: string
+        }
+        Insert: {
+          created_at?: string | null
+          file_url: string
+          id?: string
+          subject: string
+          title: string
+          uploaded_by: string
+        }
+        Update: {
+          created_at?: string | null
+          file_url?: string
+          id?: string
+          subject?: string
+          title?: string
+          uploaded_by?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string | null
+          email: string
+          id: string
+          name: string
+        }
+        Insert: {
+          created_at?: string | null
+          email: string
+          id: string
+          name: string
+        }
+        Update: {
+          created_at?: string | null
+          email?: string
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
+      results: {
+        Row: {
+          completed_at: string | null
+          correct_answers: number
+          id: string
+          score: number
+          student_id: string
+          test_id: string | null
+          test_title: string
+          total_questions: number
+        }
+        Insert: {
+          completed_at?: string | null
+          correct_answers: number
+          id?: string
+          score: number
+          student_id: string
+          test_id?: string | null
+          test_title: string
+          total_questions: number
+        }
+        Update: {
+          completed_at?: string | null
+          correct_answers?: number
+          id?: string
+          score?: number
+          student_id?: string
+          test_id?: string | null
+          test_title?: string
+          total_questions?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "results_test_id_fkey"
+            columns: ["test_id"]
+            isOneToOne: false
+            referencedRelation: "tests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tests: {
+        Row: {
+          created_at: string | null
+          created_by: string
+          id: string
+          questions: Json
+          title: string
+        }
+        Insert: {
+          created_at?: string | null
+          created_by: string
+          id?: string
+          questions: Json
+          title: string
+        }
+        Update: {
+          created_at?: string | null
+          created_by?: string
+          id?: string
+          questions?: Json
+          title?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_user_role: {
+        Args: { _user_id: string }
+        Returns: Database["public"]["Enums"]["app_role"]
+      }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "staff" | "student"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +290,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "staff", "student"],
+    },
   },
 } as const
