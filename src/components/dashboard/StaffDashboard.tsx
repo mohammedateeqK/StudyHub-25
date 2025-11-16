@@ -49,15 +49,17 @@ const StaffDashboard = () => {
         {stats.map((stat) => {
           const Icon = stat.icon;
           return (
-            <Card key={stat.label}>
-              <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <Card key={stat.label} className="shadow-card hover:shadow-lg transition-all duration-300 border-border/50 bg-gradient-to-br from-card to-card/95">
+              <CardHeader className="flex flex-row items-center justify-between pb-3 space-y-0">
                 <CardTitle className="text-sm font-medium text-muted-foreground">
                   {stat.label}
                 </CardTitle>
-                <Icon className={`w-5 h-5 ${stat.color}`} />
+                <div className={`p-2.5 rounded-lg bg-gradient-to-br ${stat.color === 'text-primary' ? 'from-primary/10 to-primary/5' : stat.color === 'text-secondary' ? 'from-secondary/10 to-secondary/5' : 'from-accent/10 to-accent/5'}`}>
+                  <Icon className={`w-5 h-5 ${stat.color}`} />
+                </div>
               </CardHeader>
               <CardContent>
-                <div className="text-3xl font-bold">{stat.value}</div>
+                <div className="text-4xl font-bold tracking-tight">{stat.value}</div>
               </CardContent>
             </Card>
           );
@@ -65,28 +67,28 @@ const StaffDashboard = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card>
+        <Card className="shadow-card hover:shadow-lg transition-all duration-300 border-border/50">
           <CardHeader>
-            <CardTitle>Quick Actions</CardTitle>
+            <CardTitle className="text-xl">Quick Actions</CardTitle>
             <CardDescription>Common tasks you can perform</CardDescription>
           </CardHeader>
           <CardContent className="space-y-3">
             <Link to="/notes/upload">
-              <Button className="w-full justify-start" variant="outline">
-                <FileText className="w-4 h-4 mr-2" />
-                Upload New Notes
+              <Button className="w-full justify-start h-12 shadow-sm hover:shadow-md transition-all" variant="outline">
+                <FileText className="w-5 h-5 mr-3" />
+                <span className="font-medium">Upload New Notes</span>
               </Button>
             </Link>
             <Link to="/tests/create">
-              <Button className="w-full justify-start" variant="outline">
-                <ClipboardList className="w-4 h-4 mr-2" />
-                Create New Test
+              <Button className="w-full justify-start h-12 shadow-sm hover:shadow-md transition-all" variant="outline">
+                <ClipboardList className="w-5 h-5 mr-3" />
+                <span className="font-medium">Create New Test</span>
               </Button>
             </Link>
             <Link to="/results">
-              <Button className="w-full justify-start" variant="outline">
-                <TrendingUp className="w-4 h-4 mr-2" />
-                View Student Results
+              <Button className="w-full justify-start h-12 shadow-sm hover:shadow-md transition-all" variant="outline">
+                <TrendingUp className="w-5 h-5 mr-3" />
+                <span className="font-medium">View Student Results</span>
               </Button>
             </Link>
           </CardContent>
@@ -94,13 +96,13 @@ const StaffDashboard = () => {
 
         <div className="space-y-6">
           <section className="relative">
-            <h2 className="text-lg font-semibold mb-3">Recently Uploaded Notes</h2>
+            <h2 className="text-xl font-semibold mb-4">Recently Uploaded Notes</h2>
             {recentNotes.length > 0 ? (
               <div className="flex gap-4 overflow-x-auto pb-2 scroll-smooth" ref={notesRowRef}>
                 {recentNotes.map((note: any) => (
-                  <div key={note.id} className="min-w-[240px] max-w-[240px]">
-                    <Card className="hover:shadow-md transition-shadow">
-                      <CardContent className="p-4 space-y-2">
+                  <div key={note.id} className="min-w-[260px] max-w-[260px]">
+                    <Card className="shadow-card hover:shadow-lg transition-all duration-300 border-border/50 h-full">
+                      <CardContent className="p-5 space-y-3">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-2 text-xs text-muted-foreground">
                             <FileText className="w-4 h-4 text-primary" />
